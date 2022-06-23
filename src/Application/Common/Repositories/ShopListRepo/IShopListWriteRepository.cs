@@ -9,5 +9,7 @@ namespace Application.Common.Repositories.ShopListRepo
 {
     public interface IShopListWriteRepository : IWriteRepository<ShopList>
     {
+        bool AddProductToListAsync(string id,Product product);
+        bool AddRangeProductToListAsync(string id,List<Product> products);
     }
 }
