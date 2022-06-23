@@ -1,4 +1,5 @@
-﻿using Application.Common.Repositories.CategoryRepo;
+﻿using Application.Common.Interfaces;
+using Application.Common.Repositories.CategoryRepo;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -13,18 +14,18 @@ namespace Application.CQS.CategoryR.Commands
     public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommandRequest, AddCategoryCommandResponse>
     {
         private readonly IMapper _mapper;
-        private readonly ICategoryWriteRepository _categoryWriteRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AddCategoryCommandHandler(IMapper mapper, ICategoryWriteRepository categoryWriteRepository)
+        public AddCategoryCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _categoryWriteRepository = categoryWriteRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<AddCategoryCommandResponse> Handle(AddCategoryCommandRequest request, CancellationToken cancellationToken)
         {
             var addedCategory=_mapper.Map<Category>(request);
-            var result = await _categoryWriteRepository.AddAsync(addedCategory);
+            var result = await _unitOfWork.CategoryWriteRepository.AddAsync(addedCategory);
             if (result)
             {
                 return new AddCategoryCommandResponse { IsSuccess = true };
