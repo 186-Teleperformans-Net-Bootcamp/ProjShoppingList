@@ -14,5 +14,6 @@ namespace Infrastructure.Identity
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
+        public IList<ShopList> ShopLists { get; set; }
     }
 }
