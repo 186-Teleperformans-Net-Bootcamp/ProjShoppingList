@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
+    <Folder Include="CQS\ProductR\Commands\UpdateProduct\" />
+    <Folder Include="CQS\ProductR\Commands\RemoveProduct\" />
     <Folder Include="CQS\ProductR\Queries\" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
-﻿using Application.Common.Models;
-using Application.Common.Repositories.ProductRepo;
+﻿using Application.Common.Repositories.ProductRepo;
+using Application.CQS.ProductR.Commands.CreateProduct;
 using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,17 @@ namespace UI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductWriteRepository _productWriteRepository;
+        private readonly IMediator _mediator;
 
-        public ProductsController(IProductWriteRepository productWriteRepository)
+        public ProductsController(IMediator mediator)
         {
-            _productWriteRepository = productWriteRepository;
+            _mediator = mediator;
         }
+
         [HttpPost]
-        public async Task<IActionResult> AddAsync(Product product)
+        public async Task<IActionResult> AddAsync(AddProductCommandRequest request)
         {
-            var result= await _productWriteRepository.AddAsync(product);
+            var result = await _mediator.Send(request);
             return Ok(result);
         }
     }
