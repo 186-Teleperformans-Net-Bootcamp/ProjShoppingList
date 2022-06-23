@@ -1,5 +1,7 @@
 ﻿using Application.Common.Repositories.CategoryRepo;
+using Application.CQS.CategoryR.Commands;
 using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +11,17 @@ namespace UI.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryWriteRepository _categoryWriteRepository;
+        private readonly IMediator _mediator;
 
-        public CategoriesController(ICategoryWriteRepository categoryWriteRepository)
+        public CategoriesController(IMediator mediator)
         {
-            _categoryWriteRepository = categoryWriteRepository;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAsync(Category category)
+        public async Task<IActionResult> AddAsync(AddCategoryCommandRequest request)
         {
-            var result = await _categoryWriteRepository.AddAsync(category);
+            var result = await _mediator.Send(request);
             return Ok(result);
         }
     }
