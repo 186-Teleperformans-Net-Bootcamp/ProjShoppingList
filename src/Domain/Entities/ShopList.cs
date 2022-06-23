@@ -10,6 +10,6 @@ namespace Domain.Entities
     public class ShopList : BaseEntity
     {
         public string Type { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public IList<Product> Products { get; set; }
     }
 }
