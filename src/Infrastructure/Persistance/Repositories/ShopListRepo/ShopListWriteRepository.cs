@@ -15,19 +15,32 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
         public ShopListWriteRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
 
 
-        public bool AddProductToListAsync(string id, Product product)
+        public bool AddProductToListAsync(string id, Product product,int amount=1)
         {
             var list = _context.ShopLists.FirstOrDefault(f => f.Id == id);
+            ProductShopList productShopList = new()
+            {
+                Amount = amount,
+                ShopListId = id,
+                ProductId = product.Id,
+            };
+            list.ProductShopList.Add(productShopList);
             _context.SaveChanges();
             return true;
         }
 
-        public bool AddRangeProductToListAsync(string id, List<Product> products)
+        public bool AddRangeProductToListAsync(string id, List<ProductShopList> products)
         {
             var list = _context.ShopLists.FirstOrDefault(f => f.Id == id);
             foreach (var product in products)
             {
-                //list?.Products.Add(product);
+                ProductShopList productShopList = new()
+                {
+                    Amount = product.Amount,
+                    ShopListId = id,
+                    ProductId = product.Id,
+                };
+                list.ProductShopList.Add(productShopList);
             }
             _context.SaveChanges();
             return true;

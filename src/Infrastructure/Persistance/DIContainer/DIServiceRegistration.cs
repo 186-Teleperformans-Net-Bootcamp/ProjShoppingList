@@ -1,9 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Repositories.CategoryRepo;
 using Application.Common.Repositories.ProductRepo;
+using Application.Common.Repositories.ProductShopListRepo;
 using Application.Common.Repositories.ShopListRepo;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
+using Infrastructure.Persistance.Repositories.ProductShopListRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,6 +27,8 @@ namespace Infrastructure.Persistance.DIContainer
             services.AddScoped<IShopListReadRepository, ShopListReadRepository>();
             services.AddScoped<IShopListWriteRepository, ShopListWriteRepository>();
             services.AddScoped<IShopListWriteRepository, ShopListWriteRepository>();
+            services.AddScoped<IProductShopListReadRepository, ProductShopListReadRepository>();
+            services.AddScoped<IProductShopListWriteRepository, ProductShopListWriteRepository>();
             services.AddScoped<IUnitOfWork, Infrastructure.Persistance.UnitOfWork.UnitOfWork>();
         }
     }
