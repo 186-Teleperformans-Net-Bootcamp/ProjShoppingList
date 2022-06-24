@@ -15,7 +15,7 @@ namespace Application.CQS.ShopListR.Commands.AddProductToShopList
         private readonly IUnitOfWork _unitOfWork;
         public Task<AddProductToShopListCommandResponse> Handle(AddProductToShopListCommandRequest request, CancellationToken cancellationToken)
         {
-            return new AddProductToShopListCommandResponse { IsSuccess = true };
+            return new AddProductToShopListCommandResponse { IsSuccess=true };
         }
     }
 }
