@@ -65,12 +65,35 @@ namespace Infrastructure.Persistance.Repositories
         }
 
         public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
-        
+
+        public async Task<bool> SoftRemoveAsync(T model)
+        {
+            var entity = await Table.FirstOrDefaultAsync(f => f.Id == model.Id);
+            if (entity != null)
+            {
+                entity.IsActive = false;
+                _context.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
+
+        public async Task<bool> SoftRemoveAsync(string id)
+        {
+            var entity = await Table.FirstOrDefaultAsync(f => f.Id == id);
+            if (entity != null)
+            {
+                entity.IsActive = false;
+                _context.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
 
         public bool Update(T model)
         {
-            EntityEntry<T> entityEntry=Table.Update(model);
-            return entityEntry.State==EntityState.Modified;
+            EntityEntry<T> entityEntry = Table.Update(model);
+            return entityEntry.State == EntityState.Modified;
         }
 
         public async Task<bool> UpdateAsync(T entity)

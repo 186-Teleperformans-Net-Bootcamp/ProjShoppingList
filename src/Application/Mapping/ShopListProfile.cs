@@ -1,5 +1,7 @@
 ﻿using Application.CQS.ShopListR.Commands.AddShopList;
 using Application.CQS.ShopListR.Commands.RemoveProductFromShopList;
+using Application.CQS.ShopListR.Commands.RemoveShopList;
+using Application.CQS.ShopListR.Commands.UpdateShopList;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -15,6 +17,8 @@ namespace Application.Mapping
         public ShopListProfile()
         {
             CreateMap<AddShopListCommandRequest, ShopList>().ReverseMap();
+            CreateMap<RemoveShopListCommandRequest, ShopList>().ReverseMap();
+            CreateMap<UpdateShopListCommandRequest, ShopList>().ReverseMap();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace Application.Common.Repositories.ProductShopListRepo
         Task<bool> SoftRemoveByProductIdAsync(string productId);
         Task<bool> HardRemoveByShopListIdAsync(string shopListId);
         Task<bool> SoftRemoveByShopListIdAsync(string shopListId);
+        bool BuyProductInShopList(string id);
+        bool BuyAllProductInShopList(string shopListId);
     }
 }

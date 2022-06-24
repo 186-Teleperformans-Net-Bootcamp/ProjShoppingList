@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CQS.CategoryR.Commands
+namespace Application.CQS.CategoryR.Commands.AddCategory
 {
     public class AddCategoryCommandRequest : IRequest<CommandResponse>
     {

@@ -14,6 +14,31 @@ namespace Infrastructure.Persistance.Repositories.ProductShopListRepo
         private readonly ProjShoppingListMsDbContext _context;
         public ProductShopListWriteRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
 
+        public bool BuyAllProductInShopList(string shopListId)
+        {
+            var boughtItems = _context.ProductShopList.Where(w => w.ShopListId == shopListId).ToList();
+            if (boughtItems.Count > 0)
+            {
+                foreach (var boughtItem in boughtItems)
+                {
+                    boughtItem.IsBuy = true;
+                }
+                _context.SaveChanges();
+                return true;
+            }
+           else return false;
+        }
+
+        public bool BuyProductInShopList(string id)
+        {
+            var boughtItem = _context.ProductShopList.SingleOrDefault(s => s.Id == id);
+            if (boughtItem != null)
+            {
+                boughtItem.IsBuy = true;
+                return true;
+            }
+            return false;
+        }
 
         public async Task<bool> HardRemoveByProductIdAsync(string productId)
         {

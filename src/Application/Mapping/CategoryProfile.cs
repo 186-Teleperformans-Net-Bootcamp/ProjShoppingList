@@ -1,4 +1,4 @@
-﻿using Application.CQS.CategoryR.Commands;
+﻿using Application.CQS.CategoryR.Commands.AddCategory;
 using AutoMapper;
 using Domain.Entities;
 using System;

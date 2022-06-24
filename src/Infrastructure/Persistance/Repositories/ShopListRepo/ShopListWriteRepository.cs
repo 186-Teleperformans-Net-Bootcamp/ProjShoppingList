@@ -11,8 +11,16 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
 {
     public class ShopListWriteRepository : WriteRepository<ShopList>, IShopListWriteRepository
     {
-        public ShopListWriteRepository(ProjShoppingListMsDbContext context) : base(context)
+        private readonly ProjShoppingListMsDbContext _context;
+        public ShopListWriteRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
+
+
+        public async Task<bool> CompleteAsync(string id)
         {
+            var completedList = await Task.Run(() => _context.ShopLists.SingleOrDefault(s => s.Id == id));
+            completedList.IsCompleted = true;
+            _context.SaveChanges();
+            return true;
         }
     }
 }

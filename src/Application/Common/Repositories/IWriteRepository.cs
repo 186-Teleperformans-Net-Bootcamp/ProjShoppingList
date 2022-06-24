@@ -15,6 +15,8 @@ namespace Application.Common.Repositories
         bool Update(T model);
         Task<bool> RemoveAsync(T model);
         Task<bool> RemoveAsync(string id);
+        Task<bool> SoftRemoveAsync(T model);
+        Task<bool> SoftRemoveAsync(string id);
         bool Remove(T model);
         bool RemoveRange(List<T> models);
         Task<int> SaveAsync();

@@ -20,10 +20,16 @@ namespace Application.CQS.ProductR.Commands.RemoveProduct
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        //If any basket contains this product?
+        /// <summary>
+        /// If any basket contains product, we should remove this records firstly.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<CommandResponse> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
             var removed = _mapper.Map<Product>(request);
+            _ = await _unitOfWork.ProductShopListWriteRepository.SoftRemoveByProductIdAsync(request.Id);
             var result=await _unitOfWork.ProductWriteRepository.RemoveAsync(removed);
             if (result)
             {

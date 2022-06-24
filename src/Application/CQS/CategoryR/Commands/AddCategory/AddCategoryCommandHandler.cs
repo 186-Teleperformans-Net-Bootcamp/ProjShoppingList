@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CQS.CategoryR.Commands
+namespace Application.CQS.CategoryR.Commands.AddCategory
 {
     public class AddCategoryCommandHandler : IRequestHandler<AddCategoryCommandRequest, CommandResponse>
     {
@@ -24,7 +24,7 @@ namespace Application.CQS.CategoryR.Commands
 
         public async Task<CommandResponse> Handle(AddCategoryCommandRequest request, CancellationToken cancellationToken)
         {
-            var addedCategory=_mapper.Map<Category>(request);
+            var addedCategory = _mapper.Map<Category>(request);
             var result = await _unitOfWork.CategoryWriteRepository.AddAsync(addedCategory);
             if (result)
             {

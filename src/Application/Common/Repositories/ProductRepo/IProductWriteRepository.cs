@@ -9,5 +9,6 @@ namespace Application.Common.Repositories.ProductRepo
 {
     public interface IProductWriteRepository:IWriteRepository<Product>
     {
+        Task<bool> UpdateProductAsync(Product product);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Repositories.CategoryRepo;
-using Application.CQS.CategoryR.Commands;
+using Application.CQS.CategoryR.Commands.AddCategory;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;

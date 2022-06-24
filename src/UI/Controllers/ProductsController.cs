@@ -1,5 +1,5 @@
 ﻿using Application.Common.Repositories.ProductRepo;
-using Application.CQS.ProductR.Commands.CreateProduct;
+using Application.CQS.ProductR.Commands.AddProduct;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
