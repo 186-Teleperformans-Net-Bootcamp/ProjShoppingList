@@ -9,5 +9,9 @@ namespace Application.Common.Repositories.ProductShopListRepo
 {
     public interface IProductShopListWriteRepository:IWriteRepository<ProductShopList>
     {
+        Task<bool> HardRemoveByProductIdAsync(string productId);
+        Task<bool> SoftRemoveByProductIdAsync(string productId);
+        Task<bool> HardRemoveByShopListIdAsync(string shopListId);
+        Task<bool> SoftRemoveByShopListIdAsync(string shopListId);
     }
 }

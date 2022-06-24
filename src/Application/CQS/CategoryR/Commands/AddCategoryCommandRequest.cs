@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQS.CategoryR.Commands
 {
-    public class AddCategoryCommandRequest : IRequest<AddCategoryCommandResponse>
+    public class AddCategoryCommandRequest : IRequest<CommandResponse>
     {
         public string Name { get; set; }
         public string Description { get; set; }

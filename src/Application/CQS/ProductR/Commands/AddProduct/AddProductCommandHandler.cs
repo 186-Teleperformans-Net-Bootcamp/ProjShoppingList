@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Application.CQS.ProductR.Commands.CreateProduct
+namespace Application.CQS.ProductR.Commands.AddProduct
 {
-    public class AddProductCommandHandler : IRequestHandler<AddProductCommandRequest, AddProductCommandResponse>
+    public class AddProductCommandHandler : IRequestHandler<AddProductCommandRequest, CommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IProductWriteRepository _productWriteRepository;
@@ -21,15 +21,15 @@ namespace Application.CQS.ProductR.Commands.CreateProduct
             _mapper = mapper;
         }
 
-        public async Task<AddProductCommandResponse> Handle(AddProductCommandRequest request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(AddProductCommandRequest request, CancellationToken cancellationToken)
         {
             var addedProduct = _mapper.Map<Product>(request);
             var result=await _productWriteRepository.AddAsync(addedProduct);
             if (result)
             {
-                return new AddProductCommandResponse { IsSuccess = true };
+                return new CommandResponse { IsSuccess = true };
             }
-            else return new AddProductCommandResponse { IsSuccess = false };
+            else return new CommandResponse { IsSuccess = false };
         }
     }
 }

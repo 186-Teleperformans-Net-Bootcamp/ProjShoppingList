@@ -19,6 +19,5 @@ namespace Domain.Entities
         public string ShopListId { get; set; }
         public int Amount { get; set; }
         public bool IsBuy { get; set; }
-        public bool IsActive { get; set; }
     }
 }

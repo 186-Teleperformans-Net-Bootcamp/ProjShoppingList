@@ -1,4 +1,5 @@
-﻿using Application.CQS.ProductR.Commands.CreateProduct;
+﻿using Application.CQS.ProductR.Commands.AddProduct;
+using Application.CQS.ProductR.Commands.RemoveProduct;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -9,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace Application.Mapping
 {
-    public class ProductMapping:Profile
+    public class ProductProfile:Profile
     {
-        public ProductMapping()
+        public ProductProfile()
         {
             CreateMap<AddProductCommandRequest, Product>().ReverseMap();
+            CreateMap<RemoveProductCommandRequest,Product>().ReverseMap();
         }
     }
 }

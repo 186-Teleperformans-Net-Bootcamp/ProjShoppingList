@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CQS.CategoryR.Commands
+namespace Application.CQS
 {
-    public class AddCategoryCommandResponse
+    public class CommandResponse
     {
         public bool IsSuccess { get; set; }
     }

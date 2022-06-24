@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,15 @@ namespace Application.CQS.ShopListR.Commands.AddProductToShopList
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public Task<AddProductToShopListCommandResponse> Handle(AddProductToShopListCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AddProductToShopListCommandResponse> Handle(AddProductToShopListCommandRequest request, CancellationToken cancellationToken)
         {
-            return new AddProductToShopListCommandResponse { IsSuccess=true };
+            var added = _mapper.Map<ProductShopList>(request);
+            var result = await _unitOfWork.ProductShopListWriteRepository.AddAsync(added);
+            if (result)
+            {
+                return new AddProductToShopListCommandResponse { IsSuccess = true };
+            }
+            else return new AddProductToShopListCommandResponse { IsSuccess = false };
         }
     }
 }
