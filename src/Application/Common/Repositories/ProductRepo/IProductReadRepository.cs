@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Models;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,7 @@ namespace Application.Common.Repositories.ProductRepo
 {
     public interface IProductReadRepository : IReadRepository<Product>
     {
+        Task<PaginatedList<Product>> GetAllAsync(PaginatedParameters paginatedParameters);
+
     }
 }

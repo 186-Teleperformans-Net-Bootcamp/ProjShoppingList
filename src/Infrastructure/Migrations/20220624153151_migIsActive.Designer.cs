@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(ProjShoppingListMsDbContext))]
+    [DbContext(typeof(IProjShopListDbContext))]
     [Migration("20220624153151_migIsActive")]
     partial class migIsActive
     {

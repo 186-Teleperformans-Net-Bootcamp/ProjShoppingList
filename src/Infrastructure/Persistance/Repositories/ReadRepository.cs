@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using Application.Common.Repositories;
 using Domain.Common;
 using Infrastructure.Persistance.Contexts;
@@ -23,8 +24,9 @@ namespace Infrastructure.Persistance.Repositories
 
         public async Task<List<T>> GetAllAsync() => await Table.ToListAsync();
 
+
         // I have to revize for validation 
-        
+
         public async Task<T> GetByIdAsync(string id)
         {
             var result = await Table.FirstOrDefaultAsync(f => f.Id == id);

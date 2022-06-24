@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="CQS\CategoryR\Queries\" />
     <Folder Include="CQS\ProductR\Queries\" />
-    <Folder Include="CQS\ShopListR\Queries\" />
   </ItemGroup>
 
 </Project>

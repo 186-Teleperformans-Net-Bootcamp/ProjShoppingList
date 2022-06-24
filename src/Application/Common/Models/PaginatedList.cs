@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Models
 {
-    internal class PaginatedList<T> : List<T>
+    public class PaginatedList<T> : List<T>
     {
         public int CurrentPage { get; private set; }
         public int TotalPages { get; private set; }

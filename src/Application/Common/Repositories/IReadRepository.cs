@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Application.Common.Models;
+using Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace Application.Common.Repositories
         Task<T> GetByIdAsync(string id);
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> condition);
+
+        //Pagination
     }
 }
