@@ -19,11 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Models\" />
     <Folder Include="CQS\CategoryR\Queries\" />
     <Folder Include="CQS\ProductR\Queries\" />
-    <Folder Include="CQS\ProductShopListR\Commands\" />
-    <Folder Include="CQS\ProductShopListR\Queries\" />
     <Folder Include="CQS\ShopListR\Queries\" />
   </ItemGroup>
 
