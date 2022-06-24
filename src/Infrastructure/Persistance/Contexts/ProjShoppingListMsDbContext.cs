@@ -2,6 +2,7 @@
 using Domain.Common;
 using Domain.Entities;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -22,11 +23,12 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ShopList> ShopLists { get; set; }
+        public DbSet<ProductShopList> ProductShopList { get; set; }
 
         //INTERCEPTORS
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var datas = ChangeTracker.Entries<BaseEntity>();
+            var datas = ChangeTracker.Entries<BaseEditableEntity>();
 
             foreach (var data in datas)
             {
@@ -41,7 +43,7 @@ namespace Infrastructure.Persistance.Contexts
         }
         public override int SaveChanges()
         {
-            var datas = ChangeTracker.Entries<BaseEntity>();
+            var datas = ChangeTracker.Entries<BaseEditableEntity>();
 
             foreach (var data in datas)
             {
@@ -64,7 +66,7 @@ namespace Infrastructure.Persistance.Contexts
         }
         public override ValueTask<EntityEntry<TEntity>> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         {
-            var datas = ChangeTracker.Entries<BaseEntity>();
+            var datas = ChangeTracker.Entries<BaseEditableEntity>();
 
             foreach (var data in datas)
             {

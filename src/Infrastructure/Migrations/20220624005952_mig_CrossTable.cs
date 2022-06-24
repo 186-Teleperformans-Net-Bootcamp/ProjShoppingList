@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class migCreateDb : Migration
+    public partial class mig_CrossTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,7 +59,7 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,10 +178,13 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
+                    CompletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,10 +202,14 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Unit = table.Column<int>(type: "int", nullable: false),
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
+                    IsExist = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,21 +226,27 @@ namespace Infrastructure.Migrations
                 name: "ProductShopList",
                 columns: table => new
                 {
-                    ProductsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShopListsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ShopListId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    IsBuy = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductShopList", x => new { x.ProductsId, x.ShopListsId });
+                    table.PrimaryKey("PK_ProductShopList", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductShopList_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_ProductShopList_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductShopList_ShopLists_ShopListsId",
-                        column: x => x.ShopListsId,
+                        name: "FK_ProductShopList_ShopLists_ShopListId",
+                        column: x => x.ShopListId,
                         principalTable: "ShopLists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -284,9 +297,14 @@ namespace Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductShopList_ShopListsId",
+                name: "IX_ProductShopList_ProductId",
                 table: "ProductShopList",
-                column: "ShopListsId");
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductShopList_ShopListId",
+                table: "ProductShopList",
+                column: "ShopListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShopLists_AppUserId",

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Repositories
 {
-    public interface IReadRepository<T> : IRepository<T> where T : BaseEntity
+    public interface IReadRepository<T> : IRepository<T> where T : BaseEditableEntity
     {
         Task<T> GetByIdAsync(string id);
         Task<List<T>> GetAllAsync();

@@ -18,7 +18,7 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
         public bool AddProductToListAsync(string id, Product product)
         {
             var list = _context.ShopLists.FirstOrDefault(f => f.Id == id);
-            list?.Products.Add(product);
+            //list?.Products.Add(product);
             _context.SaveChanges();
             return true;
         }
@@ -28,7 +28,7 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
             var list = _context.ShopLists.FirstOrDefault(f => f.Id == id);
             foreach (var product in products)
             {
-                list?.Products.Add(product);
+                //list?.Products.Add(product);
             }
             _context.SaveChanges();
             return true;

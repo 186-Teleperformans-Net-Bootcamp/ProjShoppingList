@@ -31,7 +31,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -59,8 +58,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExist")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -69,11 +70,57 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductShopList", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsBuy")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ShopListId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ShopListId");
+
+                    b.ToTable("ProductShopList");
                 });
 
             modelBuilder.Entity("Domain.Entities.ShopList", b =>
@@ -84,15 +131,24 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime?>("CompletedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -314,21 +370,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProductShopList", b =>
-                {
-                    b.Property<string>("ProductsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ShopListsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ProductsId", "ShopListsId");
-
-                    b.HasIndex("ShopListsId");
-
-                    b.ToTable("ProductShopList");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "Category")
@@ -338,6 +379,25 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductShopList", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductShopList")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.ShopList", "ShopList")
+                        .WithMany("ProductShopList")
+                        .HasForeignKey("ShopListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ShopList");
                 });
 
             modelBuilder.Entity("Domain.Entities.ShopList", b =>
@@ -398,24 +458,19 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProductShopList", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.ShopList", null)
-                        .WithMany()
-                        .HasForeignKey("ShopListsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.Navigation("ProductShopList");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ShopList", b =>
+                {
+                    b.Navigation("ProductShopList");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.AppUser", b =>

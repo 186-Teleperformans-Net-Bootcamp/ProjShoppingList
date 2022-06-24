@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Repositories
 {
-    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
+    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEditableEntity
     {
         private readonly ProjShoppingListMsDbContext _context;
 

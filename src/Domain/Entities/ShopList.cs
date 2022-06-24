@@ -10,6 +10,10 @@ namespace Domain.Entities
     public class ShopList : BaseEntity
     {
         public string Type { get; set; }
-        public IList<Product> Products { get; set; }
+        public string Name { get; set; }
+        public bool IsCompleted { get; set; } = false;
+        public DateTime? CompletedDate { get; set; }
+        public IList<ProductShopList> ProductShopList { get; set; }
+
     }
 }

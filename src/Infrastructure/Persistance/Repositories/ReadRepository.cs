@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Repositories
 {
-    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
+    public class ReadRepository<T> : IReadRepository<T> where T : BaseEditableEntity
     {
         private readonly ProjShoppingListMsDbContext _context;
 
