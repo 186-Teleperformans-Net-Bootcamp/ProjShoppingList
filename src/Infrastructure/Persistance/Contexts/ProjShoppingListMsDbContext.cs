@@ -2,6 +2,7 @@
 using Domain.Common;
 using Domain.Entities;
 using Infrastructure.Identity;
+using Infrastructure.Persistance.Mapping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,14 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<ShopList> ShopLists { get; set; }
         public DbSet<ProductShopList> ProductShopList { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new CategoryMap());
+            builder.ApplyConfiguration(new ProductMap());
+            builder.ApplyConfiguration(new ProductShopListMap());
+            builder.ApplyConfiguration(new ShopListMap());
+        }
 
         //INTERCEPTORS
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
