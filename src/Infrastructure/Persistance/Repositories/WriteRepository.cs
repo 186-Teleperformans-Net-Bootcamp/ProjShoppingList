@@ -46,13 +46,13 @@ namespace Infrastructure.Persistance.Repositories
             return true;
         }
 
-        public async Task<bool> RemoveAsync(T model)
+        public async Task<bool> HardRemoveAsync(T model)
         {
             var result = await Task.Run(() => _context.Remove(model));
             return true;
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> HardRemoveAsync(string id)
         {
             T? entity = await Table.FirstOrDefaultAsync(f => f.Id == id);
             return Remove(entity);

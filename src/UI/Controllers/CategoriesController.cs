@@ -1,5 +1,6 @@
 ﻿using Application.Common.Repositories.CategoryRepo;
 using Application.CQS.CategoryR.Commands.AddCategory;
+using Application.CQS.CategoryR.Commands.UpdateCategory;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +19,27 @@ namespace UI.Controllers
             _mediator = mediator;
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(UpdateCategoryCommandRequest request)
+        {
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(result.Errors);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddCategoryCommandRequest request)
         {
             var result = await _mediator.Send(request);
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(result.Errors);
         }
     }
 }

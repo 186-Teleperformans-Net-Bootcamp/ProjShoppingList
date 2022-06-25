@@ -11,6 +11,6 @@ namespace Application.CQS.ProductR.Queries
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        //public UnitProduct Unit { get; set; }
+        public UnitProduct Unit { get; set; }
     }
 }

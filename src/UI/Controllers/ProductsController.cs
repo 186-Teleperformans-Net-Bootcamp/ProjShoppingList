@@ -1,6 +1,8 @@
 ﻿using Application.Common.Models;
 using Application.Common.Repositories.ProductRepo;
 using Application.CQS.ProductR.Commands.AddProduct;
+using Application.CQS.ProductR.Commands.RemoveProduct;
+using Application.CQS.ProductR.Commands.UpdateProduct;
 using Application.CQS.ProductR.Queries;
 using Domain.Entities;
 using MediatR;
@@ -20,20 +22,58 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<List<GetAllProductsQueryResponse>>> GetAllProductsWithPaginationAsync([FromQuery] GetAllProductsWithPaginationQueryRequest request)
+        public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsWithPaginationAsync([FromQuery] GetAllProductsWithPaginationQueryRequest request)
         {
             var result=await _mediator.Send(request);
+            Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             if (result.Count > -1)
             {
                 return Ok(result);
             }
-            else return BadRequest();
+            return BadRequest();
         }
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddProductCommandRequest request)
         {
             var result = await _mediator.Send(request);
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(UpdateProductCommandRequest request)
+        {
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            else return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> SoftRemoveAsync(RemoveProductCommandRequest request)
+        {
+            var result=await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpDelete]
+        public async Task<IActionResult> HardRemoveAsync(RemoveProductCommandRequest request)
+        {
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
     }
 }

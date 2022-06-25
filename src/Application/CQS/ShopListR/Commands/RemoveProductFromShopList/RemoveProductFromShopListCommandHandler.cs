@@ -17,7 +17,7 @@ namespace Application.CQS.ShopListR.Commands.RemoveProductFromShopList
         public async Task<CommandResponse> Handle(RemoveProductFromShopListCommandRequest request, CancellationToken cancellationToken)
         {
             var removed = _mapper.Map<ProductShopList>(request);
-            var result = await _unitOfWork.ProductShopListWriteRepository.RemoveAsync(removed);
+            var result = await _unitOfWork.ProductShopListWriteRepository.SoftRemoveAsync(removed);
             if (result)
             {
                 return new CommandResponse { IsSuccess = true };

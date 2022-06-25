@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQS.ProductR.Queries
 {
-    public class GetAllProductsWithPaginationQueryHandler : IRequestHandler<GetAllProductsWithPaginationQueryRequest, List<GetAllProductsQueryResponse>>
+    public class GetAllProductsWithPaginationQueryHandler : IRequestHandler<GetAllProductsWithPaginationQueryRequest, PaginatedList<GetAllProductsQueryResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -26,7 +26,7 @@ namespace Application.CQS.ProductR.Queries
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<List<GetAllProductsQueryResponse>> Handle(GetAllProductsWithPaginationQueryRequest request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<GetAllProductsQueryResponse>> Handle(GetAllProductsWithPaginationQueryRequest request, CancellationToken cancellationToken)
         {
             var mapped = await _unitOfWork
                 .ProductReadRepository
@@ -34,7 +34,7 @@ namespace Application.CQS.ProductR.Queries
                 new PaginatedParameters { PageNumber = request.PageNumber, PageSize = request.PageSize }
                 );
             var result = _mapper.Map<List<GetAllProductsQueryResponse>>(mapped);
-            return result;
+            return new PaginatedList<GetAllProductsQueryResponse>(result, result.Count, request.PageNumber, request.PageSize);
         }
     }
 }

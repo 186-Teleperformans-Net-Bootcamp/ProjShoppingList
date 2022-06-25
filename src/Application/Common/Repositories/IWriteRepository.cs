@@ -13,8 +13,8 @@ namespace Application.Common.Repositories
         Task<bool> AddRangeAsync(List<T> models);
         Task<bool> UpdateAsync(T entity);
         bool Update(T model);
-        Task<bool> RemoveAsync(T model);
-        Task<bool> RemoveAsync(string id);
+        Task<bool> HardRemoveAsync(T model);
+        Task<bool> HardRemoveAsync(string id);
         Task<bool> SoftRemoveAsync(T model);
         Task<bool> SoftRemoveAsync(string id);
         bool Remove(T model);
