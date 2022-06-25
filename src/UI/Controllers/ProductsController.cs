@@ -1,5 +1,7 @@
-﻿using Application.Common.Repositories.ProductRepo;
+﻿using Application.Common.Models;
+using Application.Common.Repositories.ProductRepo;
 using Application.CQS.ProductR.Commands.AddProduct;
+using Application.CQS.ProductR.Queries;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +19,16 @@ namespace UI.Controllers
         {
             _mediator = mediator;
         }
-
+        [HttpGet]
+        public async Task<ActionResult<List<GetAllProductsQueryResponse>>> GetAllProductsWithPaginationAsync([FromQuery] GetAllProductsWithPaginationQueryRequest request)
+        {
+            var result=await _mediator.Send(request);
+            if (result.Count > -1)
+            {
+                return Ok(result);
+            }
+            else return BadRequest();
+        }
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddProductCommandRequest request)
         {

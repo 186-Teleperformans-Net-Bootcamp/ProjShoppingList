@@ -1,4 +1,5 @@
-﻿using Application.Common.Repositories.ShopListRepo;
+﻿using Application.Common.Models;
+using Application.Common.Repositories.ShopListRepo;
 using Domain.Entities;
 using Infrastructure.Persistance.Contexts;
 using System;
@@ -13,6 +14,11 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
     {
         public ShopListReadRepository(ProjShoppingListMsDbContext context) : base(context)
         {
+        }
+
+        public Task<PaginatedList<ShopList>> GetAllAsync(PaginatedParameters paginatedParameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

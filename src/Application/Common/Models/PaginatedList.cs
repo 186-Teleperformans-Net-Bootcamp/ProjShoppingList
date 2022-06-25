@@ -27,13 +27,12 @@ namespace Application.Common.Models
             AddRange(items);
         }
 
-        public static PaginatedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        public static List<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
-            var count = source.Count();
             var items = source.Skip((pageNumber - 1) / pageSize)
                 .Take(pageSize)
                 .ToList();
-            return new PaginatedList<T>(items, count, pageNumber, pageSize);
+            return new List<T>(items);
         }
     }
 }
