@@ -5,6 +5,7 @@ using Application.CQS.ShopListR.Commands.CompleteShopList;
 using Application.CQS.ShopListR.Commands.RemoveProductFromShopList;
 using Application.CQS.ShopListR.Commands.RemoveShopList;
 using Application.CQS.ShopListR.Commands.UpdateShopList;
+using Application.CQS.ShopListR.Queries.GetAllProductsInShopList;
 using Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -36,9 +37,14 @@ namespace UI.Controllers
             return result;
         }
         [HttpGet("{shopListId}")]
-        public async Task<IActionResult> GetAllProductsShopListId(string shopListId)
+        public async Task<IActionResult> GetAllProductsShopListId(string shopListId, GetAllProductsInShopListQueryRequest request)
         {
-
+            if (shopListId!=request.Id)
+            {
+                return BadRequest();
+            }
+            var result = await _mediator.Send(request);
+            return Ok(result);
         }
 
         //Commands

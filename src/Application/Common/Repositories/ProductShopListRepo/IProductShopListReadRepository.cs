@@ -9,5 +9,6 @@ namespace Application.Common.Repositories.ProductShopListRepo
 {
     public interface IProductShopListReadRepository : IReadRepository<ProductShopList>
     {
+        Task<List<ProductShopList>> GetAllByShopListIdAsync(string shopListId);
     }
 }

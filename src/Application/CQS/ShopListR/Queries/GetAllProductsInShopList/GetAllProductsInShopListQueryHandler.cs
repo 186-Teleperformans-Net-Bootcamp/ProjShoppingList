@@ -13,9 +13,18 @@ namespace Application.CQS.ShopListR.Queries.GetAllProductsInShopList
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public Task<List<GetAllProductsInShopListQueryResponse>> Handle(GetAllProductsInShopListQueryRequest request, CancellationToken cancellationToken)
+        public async Task<List<GetAllProductsInShopListQueryResponse>> Handle(GetAllProductsInShopListQueryRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = await _unitOfWork.ProductShopListReadRepository.GetAllByShopListIdAsync(request.Id);
+            var list = new List<GetAllProductsInShopListQueryResponse>();
+            foreach (var item in result)
+            {
+                var response = new GetAllProductsInShopListQueryResponse();
+                item.Amount = response.Amount;
+                item.Product.Name = response.Name;
+                list.Add(response);
+            }
+            return list;
         }
     }
 }

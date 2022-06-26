@@ -9,5 +9,6 @@ namespace Application.CQS.ShopListR.Queries.GetAllProductsInShopList
 {
     public class GetAllProductsInShopListQueryRequest:IRequest<List<GetAllProductsInShopListQueryResponse>>
     {
+        public string Id { get; set; }
     }
 }

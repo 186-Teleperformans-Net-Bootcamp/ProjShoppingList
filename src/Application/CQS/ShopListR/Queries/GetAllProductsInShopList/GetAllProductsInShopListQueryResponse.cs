@@ -8,5 +8,7 @@ namespace Application.CQS.ShopListR.Queries.GetAllProductsInShopList
 {
     public class GetAllProductsInShopListQueryResponse
     {
+        public string Name { get; set; }
+        public int Amount { get; set; }
     }
 }
