@@ -3,6 +3,7 @@ using Application.Common.Repositories.CategoryRepo;
 using Application.Common.Repositories.ProductRepo;
 using Application.Common.Repositories.ProductShopListRepo;
 using Application.Common.Repositories.ShopListRepo;
+using Infrastructure.Identity;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ProductShopListRepo;
@@ -30,6 +31,7 @@ namespace Infrastructure.Persistance.DIContainer
             services.AddScoped<IProductShopListReadRepository, ProductShopListReadRepository>();
             services.AddScoped<IProductShopListWriteRepository, ProductShopListWriteRepository>();
             services.AddScoped<IUnitOfWork, Infrastructure.Persistance.UnitOfWork.UnitOfWork>();
+            services.AddScoped<IIdentityService, IdentityService>();
         }
     }
 }

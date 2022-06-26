@@ -27,7 +27,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+//Auth
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
