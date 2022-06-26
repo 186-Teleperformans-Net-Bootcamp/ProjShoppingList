@@ -97,6 +97,8 @@ namespace Infrastructure.Identity
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
                 if (result.Succeeded)
                 {
+                    await CreateRole(role);
+                    await _userManager.AddToRoleAsync(user, role.ToString());
                     return Result.Success();
                 }
                 else

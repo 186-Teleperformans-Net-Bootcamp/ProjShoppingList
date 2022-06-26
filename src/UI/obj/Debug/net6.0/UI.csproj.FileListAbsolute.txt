@@ -75,3 +75,4 @@ C:\Users\Lenovo\OneDrive\Masaüstü\Emir Projects\TeleperformanceFinalProject\Pr
 C:\Users\Lenovo\OneDrive\Masaüstü\Emir Projects\TeleperformanceFinalProject\ProjShoppingList\src\UI\bin\Debug\net6.0\MediatR.dll
 C:\Users\Lenovo\OneDrive\Masaüstü\Emir Projects\TeleperformanceFinalProject\ProjShoppingList\src\UI\bin\Debug\net6.0\MediatR.Contracts.dll
 C:\Users\Lenovo\OneDrive\Masaüstü\Emir Projects\TeleperformanceFinalProject\ProjShoppingList\src\UI\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Lenovo\OneDrive\Masaüstü\Emir Projects\TeleperformanceFinalProject\ProjShoppingList\src\UI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

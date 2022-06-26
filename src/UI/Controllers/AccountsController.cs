@@ -39,7 +39,7 @@ namespace UI.Controllers
             var result = await _identityService.LoginAsync(user);
             if (result.Item1.Succeeded)
             {
-                Response.Headers.Add("JWT:", result.Token);
+                Response.Headers.Add("JWT", result.Token);
                 return Ok();
             }
             else
