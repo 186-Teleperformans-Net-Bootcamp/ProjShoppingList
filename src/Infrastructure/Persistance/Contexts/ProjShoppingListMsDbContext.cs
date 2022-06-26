@@ -38,22 +38,18 @@ namespace Infrastructure.Persistance.Contexts
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var datas = ChangeTracker.Entries<BaseEditableEntity>();
-
-            foreach (var data in datas)
-            {
-                _ = data.State switch
-                {
-                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
-                    EntityState.Modified => data.Entity.ModifiedDate = DateTime.UtcNow
-                };
-
-            }
+            DateController(datas);
             return await base.SaveChangesAsync(cancellationToken);
         }
+
         public override int SaveChanges()
         {
             var datas = ChangeTracker.Entries<BaseEditableEntity>();
-
+            DateController(datas);
+            return base.SaveChanges();
+        }
+        private static void DateController(IEnumerable<EntityEntry<BaseEditableEntity>> datas)
+        {
             foreach (var data in datas)
             {
                 switch (data.State)
@@ -71,7 +67,6 @@ namespace Infrastructure.Persistance.Contexts
                 }
 
             }
-            return base.SaveChanges();
         }
         public override ValueTask<EntityEntry<TEntity>> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         {

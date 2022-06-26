@@ -22,20 +22,20 @@ namespace Infrastructure.Persistance.Repositories
         public DbSet<T> Table => _context.Set<T>();
 
 
-        public async Task<List<T>> GetAllAsync() => await Table.ToListAsync();
+        public async Task<List<T>> GetAllAsync() => await Table.Where(w => w.IsActive == true).ToListAsync();
 
 
         // I have to revize for validation 
 
         public async Task<T> GetByIdAsync(string id)
         {
-            var result = await Table.FirstOrDefaultAsync(f => f.Id == id);
+            var result = await Table.FirstOrDefaultAsync(f => f.Id == id && f.IsActive == true);
             return result;
         }
 
         public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> condition)
         {
-            var result = await Table.Where(condition).ToListAsync();
+            var result = await Table.Where(condition).Where(w => w.IsActive == true).ToListAsync();
             return result;
         }
     }

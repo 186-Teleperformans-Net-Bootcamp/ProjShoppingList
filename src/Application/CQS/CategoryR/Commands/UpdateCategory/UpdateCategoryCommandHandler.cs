@@ -24,7 +24,7 @@ namespace Application.CQS.CategoryR.Commands.UpdateCategory
         public async Task<CommandResponse> Handle(UpdateCategoryCommandRequest request, CancellationToken cancellationToken)
         {
             var updatedCategory = _mapper.Map<Category>(request);
-            var result = await _unitOfWork.CategoryWriteRepository.UpdateAsync(updatedCategory);
+            var result =await _unitOfWork.CategoryWriteRepository.UpdateAsync(updatedCategory);
             if (result)
             {
                 return new CommandResponse { IsSuccess = true };

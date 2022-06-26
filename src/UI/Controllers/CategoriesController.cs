@@ -1,6 +1,8 @@
 ﻿using Application.Common.Repositories.CategoryRepo;
 using Application.CQS.CategoryR.Commands.AddCategory;
+using Application.CQS.CategoryR.Commands.RemoveCategory;
 using Application.CQS.CategoryR.Commands.UpdateCategory;
+using Application.CQS.CategoryR.Queries.GetAllCategories;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,16 +20,15 @@ namespace UI.Controllers
         {
             _mediator = mediator;
         }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(UpdateCategoryCommandRequest request)
+        [HttpGet]
+        public async Task<ActionResult<List<GetAllCategoriesQueryResponse>>> GetAllCategoriesAsync(GetAllCategoriesQueryRequest request)
         {
             var result = await _mediator.Send(request);
-            if (result.IsSuccess)
+            if (result.Count>-1)
             {
-                return StatusCode(201);
+                return Ok(result);
             }
-            return BadRequest(result.Errors);
+            return NoContent();
         }
 
 
@@ -40,6 +41,36 @@ namespace UI.Controllers
                 return StatusCode(201);
             }
             return BadRequest(result.Errors);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(string id, UpdateCategoryCommandRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(result.Errors);
+        }
+
+
+        [HttpPut("removing_id")]
+        public async Task<IActionResult> SoftRemoveAsync(string id, RemoveCategoryCommandRequest request)
+        {
+            if (id!=request.Id)
+            {
+                return BadRequest();
+            }
+            var result=await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

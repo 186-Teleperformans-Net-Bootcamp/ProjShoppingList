@@ -72,7 +72,7 @@ namespace Infrastructure.Persistance.Repositories
             if (entity != null)
             {
                 entity.IsActive = false;
-                _context.SaveChanges();
+                await SaveAsync();
                 return true;
             }
             else return false;
@@ -93,13 +93,24 @@ namespace Infrastructure.Persistance.Repositories
         public bool Update(T model)
         {
             EntityEntry<T> entityEntry = Table.Update(model);
-            return entityEntry.State == EntityState.Modified;
+            _context.SaveChanges();
+            if (entityEntry != null)
+            {
+                return true;
+            }
+            return false;
         }
+
 
         public async Task<bool> UpdateAsync(T entity)
         {
             EntityEntry<T> entityEntry = await Task.Run(() => Table.Update(entity));
-            return entityEntry.State == EntityState.Modified;
+            await _context.SaveChangesAsync();
+            if (entityEntry.Entity != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
