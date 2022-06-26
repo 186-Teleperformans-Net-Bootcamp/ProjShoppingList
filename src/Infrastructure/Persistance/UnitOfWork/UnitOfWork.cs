@@ -8,6 +8,7 @@ using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ProductShopListRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Infrastructure.Persistance.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly IDistributedCache _distributedCache;
         private readonly ProjShoppingListMsDbContext _context;
         private ProductReadRepository _productReadRepository;
         private ProductWriteRepository _productWriteRepository;
@@ -28,9 +30,10 @@ namespace Infrastructure.Persistance.UnitOfWork
         private ProductShopListReadRepository _productShopListReadRepository;
         private ProductShopListWriteRepository _productShopListWriteRepository;
 
-        public UnitOfWork(ProjShoppingListMsDbContext context)
+        public UnitOfWork(ProjShoppingListMsDbContext context, IDistributedCache distributedCache)
         {
             _context = context;
+            _distributedCache = distributedCache;
         }
 
         public IProductReadRepository ProductReadRepository => _productReadRepository ?? (_productReadRepository = new ProductReadRepository(_context));
@@ -45,7 +48,7 @@ namespace Infrastructure.Persistance.UnitOfWork
 
         public IProductShopListWriteRepository ProductShopListWriteRepository => _productShopListWriteRepository ?? (_productShopListWriteRepository = new ProductShopListWriteRepository(_context));
 
-        public IShopListReadRepository ShopListReadRepository => _shopListReadRepository ?? (_shopListReadRepository = new ShopListReadRepository(_context));
+        public IShopListReadRepository ShopListReadRepository => _shopListReadRepository ?? (_shopListReadRepository = new ShopListReadRepository(_context, _distributedCache));
 
         public IShopListWriteRepository ShopListWriteRepository => _shopListWriteRepository ?? (_shopListWriteRepository = new ShopListWriteRepository(_context));
 

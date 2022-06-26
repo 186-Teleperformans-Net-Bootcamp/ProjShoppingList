@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQS.ProductR.Commands.RemoveProduct
 {
-    public class RemoveProductCommandRequest : IRequest<CommandResponse>
+    public class HardRemoveProductCommandRequest : IRequest<CommandResponse>
     {
         public string Id { get; set; }
     }

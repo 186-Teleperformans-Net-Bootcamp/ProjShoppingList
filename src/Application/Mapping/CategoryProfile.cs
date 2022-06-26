@@ -1,6 +1,7 @@
 ﻿using Application.CQS.CategoryR.Commands.AddCategory;
 using Application.CQS.CategoryR.Commands.RemoveCategory;
 using Application.CQS.CategoryR.Commands.UpdateCategory;
+using Application.CQS.CategoryR.Queries.GetAllCategories;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -15,9 +16,13 @@ namespace Application.Mapping
     {
         public CategoryProfile()
         {
+            //Commands
             CreateMap<AddCategoryCommandRequest, Category>().ReverseMap();
             CreateMap<UpdateCategoryCommandRequest, Category>().ReverseMap();
             CreateMap<RemoveCategoryCommandRequest, Category>().ReverseMap();
+
+            //Queries
+            CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
         }
     }
 }

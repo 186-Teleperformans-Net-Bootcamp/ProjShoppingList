@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CQS.ProductR.Commands.RemoveProduct
 {
-    public class HardRemoveProductCommandHandler : IRequestHandler<RemoveProductCommandRequest, CommandResponse>
+    public class HardRemoveProductCommandHandler : IRequestHandler<HardRemoveProductCommandRequest, CommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +21,7 @@ namespace Application.CQS.ProductR.Commands.RemoveProduct
             _mapper = mapper;
         }
 
-        public async Task<CommandResponse> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(HardRemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
             var removed = _mapper.Map<Product>(request);
             _ = await _unitOfWork.ProductShopListWriteRepository.HardRemoveByProductIdAsync(request.Id);

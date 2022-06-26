@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    public enum UserRoles
+    public static class UserRoles
     {
-        Admin = 0,
-        User = 1
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 }

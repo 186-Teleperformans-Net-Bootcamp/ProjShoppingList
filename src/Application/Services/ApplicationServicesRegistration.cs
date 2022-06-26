@@ -16,6 +16,10 @@ namespace Application.Services
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(IProjShoppingListDbContext));
+            services.AddStackExchangeRedisCache(action =>
+            {
+                action.Configuration = "localhost:6379";
+            });
         }
     }
 }

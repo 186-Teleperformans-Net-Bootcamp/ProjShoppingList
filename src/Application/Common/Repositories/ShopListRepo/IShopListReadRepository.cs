@@ -1,4 +1,5 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Repositories.ShopListRepo
 {
-    public  interface IShopListReadRepository:IReadRepository<ShopList>
+    public  interface IShopListReadRepository:IReadRepository<ShopList>, IRedisCacheService<ShopList>
     {
         Task<List<ShopList>> GetAllWithPaginationAsync(string userId,PaginatedParameters paginatedParameters);
     }

@@ -14,6 +14,13 @@ namespace Application.CQS.ShopListR.Commands.AddShopList
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+
+        public AddShopListCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+
         public async Task<CommandResponse> Handle(AddShopListCommandRequest request, CancellationToken cancellationToken)
         {
             var added = _mapper.Map<ShopList>(request);

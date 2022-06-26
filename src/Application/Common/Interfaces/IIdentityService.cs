@@ -12,7 +12,7 @@ namespace Application.Common.Interfaces
     public interface IIdentityService
     {
         Task<(Result, string Token)> LoginAsync(LoginModel loginModel);
-        Task<Result> RegisterAsync(RegisterModel registerModel, UserRoles role = UserRoles.User);
-        Task<Result> RegisterAdminAsync(RegisterModel registerModel, UserRoles role = UserRoles.Admin);
+        Task<Result> RegisterAsync(RegisterModel registerModel, string role = UserRoles.User);
+        Task<Result> RegisterAdminAsync(RegisterModel registerModel, string role = UserRoles.Admin);
     }
 }

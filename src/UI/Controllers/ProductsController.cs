@@ -59,7 +59,7 @@ namespace UI.Controllers
         }
 
         [HttpPut("removing_{id}")]
-        public async Task<IActionResult> SoftRemoveAsync(string id,RemoveProductCommandRequest request)
+        public async Task<IActionResult> SoftRemoveAsync(string id,SoftRemoveProductCommandRequest request)
         {
             if (id!=request.Id)
             {
@@ -73,7 +73,7 @@ namespace UI.Controllers
             return BadRequest();
         }
         [HttpDelete]
-        public async Task<IActionResult> HardRemoveAsync(RemoveProductCommandRequest request)
+        public async Task<IActionResult> HardRemoveAsync(HardRemoveProductCommandRequest request)
         {
             var result = await _mediator.Send(request);
             if (result.IsSuccess)

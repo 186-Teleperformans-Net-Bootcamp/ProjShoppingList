@@ -21,7 +21,7 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<List<GetAllCategoriesQueryResponse>>> GetAllCategoriesAsync(GetAllCategoriesQueryRequest request)
+        public async Task<ActionResult<List<GetAllCategoriesQueryResponse>>> GetAllCategoriesAsync([FromQuery]GetAllCategoriesQueryRequest request)
         {
             var result = await _mediator.Send(request);
             if (result.Count>-1)

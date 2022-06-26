@@ -51,7 +51,7 @@ namespace Infrastructure.Identity
             else return (Result.Failure(new string[] { IdentityMessages.EmailOrPasswordInvalid }), "");
         }
 
-        public async Task<Result> RegisterAdminAsync(RegisterModel registerModel, UserRoles role = UserRoles.Admin)
+        public async Task<Result> RegisterAdminAsync(RegisterModel registerModel, string role = UserRoles.Admin)
         {
             var userExist = await _userManager.FindByEmailAsync(registerModel.Email);
 
@@ -80,7 +80,7 @@ namespace Infrastructure.Identity
             else return Result.Failure(new string[] { IdentityMessages.ExistEmail });
         }
 
-        public async Task<Result> RegisterAsync(RegisterModel registerModel, UserRoles role = UserRoles.User)
+        public async Task<Result> RegisterAsync(RegisterModel registerModel, string role = UserRoles.User)
         {
             var userExists = await _userManager.FindByEmailAsync(registerModel.Email);
             if (userExists == null)
@@ -110,7 +110,7 @@ namespace Infrastructure.Identity
             else return Result.Failure(new string[] { IdentityMessages.ExistEmail });
         }
 
-        private async Task CreateRole(UserRoles role)
+        private async Task CreateRole(string role)
         {
             string strRole = role.ToString();
             bool roleControl = await _roleManager.RoleExistsAsync(strRole);

@@ -19,7 +19,8 @@ namespace Application.Mapping
         {
             //Command
             CreateMap<AddProductCommandRequest, Product>().ReverseMap();
-            CreateMap<RemoveProductCommandRequest,Product>().ReverseMap(); 
+            CreateMap<SoftRemoveProductCommandRequest,Product>().ReverseMap(); 
+            CreateMap<HardRemoveProductCommandRequest,Product>().ReverseMap();
             CreateMap<UpdateProductCommandRequest, Product>().ReverseMap();
             //Query
             CreateMap<Product,GetAllProductsQueryResponse>().ReverseMap();
