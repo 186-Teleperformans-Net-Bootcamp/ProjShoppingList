@@ -10,6 +10,6 @@ namespace Application.Common.Repositories.ShopListRepo
 {
     public  interface IShopListReadRepository:IReadRepository<ShopList>
     {
-        Task<PaginatedList<ShopList>> GetAllAsync(PaginatedParameters paginatedParameters);
+        Task<List<ShopList>> GetAllWithPaginationAsync(string userId,PaginatedParameters paginatedParameters);
     }
 }

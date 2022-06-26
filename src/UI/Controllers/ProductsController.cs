@@ -43,9 +43,13 @@ namespace UI.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(UpdateProductCommandRequest request)
+        [HttpPut("updating_{id}")]
+        public async Task<IActionResult> UpdateAsync(string id,UpdateProductCommandRequest request)
         {
+            if (id!=request.Id)
+            {
+                return BadRequest();
+            }
             var result = await _mediator.Send(request);
             if (result.IsSuccess)
             {
@@ -54,9 +58,13 @@ namespace UI.Controllers
             else return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> SoftRemoveAsync(RemoveProductCommandRequest request)
+        [HttpPut("removing_{id}")]
+        public async Task<IActionResult> SoftRemoveAsync(string id,RemoveProductCommandRequest request)
         {
+            if (id!=request.Id)
+            {
+                return BadRequest();
+            }
             var result=await _mediator.Send(request);
             if (result.IsSuccess)
             {

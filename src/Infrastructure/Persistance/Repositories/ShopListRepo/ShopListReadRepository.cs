@@ -12,13 +12,13 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
 {
     public class ShopListReadRepository : ReadRepository<ShopList>, IShopListReadRepository
     {
-        public ShopListReadRepository(ProjShoppingListMsDbContext context) : base(context)
-        {
-        }
+        private readonly ProjShoppingListMsDbContext _context;
+        public ShopListReadRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
 
-        public Task<PaginatedList<ShopList>> GetAllAsync(PaginatedParameters paginatedParameters)
+        public async Task<List<ShopList>> GetAllWithPaginationAsync(string userId, PaginatedParameters paginatedParameters)
         {
-            throw new NotImplementedException();
+            var result = PaginatedList<ShopList>.ToPagedList(_context.ShopLists.Where(w => w.UserId == userId), paginatedParameters.PageNumber, paginatedParameters.PageSize);
+            return result;
         }
     }
 }

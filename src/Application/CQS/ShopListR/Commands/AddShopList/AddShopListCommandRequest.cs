@@ -9,5 +9,9 @@ namespace Application.CQS.ShopListR.Commands.AddShopList
 {
     public class AddShopListCommandRequest : IRequest<CommandResponse>
     {
+        public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
     }
 }

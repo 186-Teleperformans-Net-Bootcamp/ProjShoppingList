@@ -9,5 +9,6 @@ namespace Application.CQS.ShopListR.Commands.RemoveProductFromShopList
 {
     public class RemoveProductFromShopListCommandRequest : IRequest<CommandResponse>
     {
+        public string Id { get; set; }
     }
 }

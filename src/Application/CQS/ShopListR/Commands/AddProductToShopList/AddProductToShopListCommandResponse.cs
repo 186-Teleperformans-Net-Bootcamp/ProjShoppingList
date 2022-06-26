@@ -9,5 +9,6 @@ namespace Application.CQS.ShopListR.Commands.AddProductToShopList
     public class AddProductToShopListCommandResponse
     {
         public bool IsSuccess { get; set; }
+        public string[] Errors { get; set; }
     }
 }
