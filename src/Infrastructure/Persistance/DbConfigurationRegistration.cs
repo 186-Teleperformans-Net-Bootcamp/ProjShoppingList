@@ -19,6 +19,7 @@ namespace Infrastructure.Persistance
         public static void AddDbServices(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddDbContext<ProjShoppingListMsDbContext>(options => options.UseSqlServer(configuration["SQLSERVER:ConnectionStrings"]));
+            services.AddDbContext<ProjShoppingListPostgreSqlDbContext>(options => options.UseNpgsql(configuration["POSTGRESQL:ConnectionStrings"]));
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ProjShoppingListMsDbContext>().AddDefaultTokenProviders();
 
             //Authentication
