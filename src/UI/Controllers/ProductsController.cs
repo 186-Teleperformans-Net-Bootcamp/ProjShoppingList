@@ -1,6 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.Common.Repositories.ProductRepo;
-using Application.CQS.ProductR.Commands.AddProduct;
+using Application.CQS.ProductR.Commands.BuyAllProducts;
+using Application.CQS.ProductR.Commands.BuyProduct;
 using Application.CQS.ProductR.Commands.RemoveProduct;
 using Application.CQS.ProductR.Commands.UpdateProduct;
 using Application.CQS.ProductR.Queries;
@@ -22,7 +23,7 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<GetAllProductsQueryResponse>>> GetAllProductsWithPaginationAsync([FromQuery] GetAllProductsWithPaginationQueryRequest request)
+        public async Task<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>> GetAllProductsInShopListAsync([FromQuery] GetAllProductsInShopListQueryRequest request)
         {
             var result=await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
@@ -32,17 +33,7 @@ namespace UI.Controllers
             }
             return BadRequest();
         }
-        [HttpPost]
-        public async Task<IActionResult> AddAsync(AddProductCommandRequest request)
-        {
-            var result = await _mediator.Send(request);
-            if (result.IsSuccess)
-            {
-                return StatusCode(201);
-            }
-            return BadRequest();
-        }
-
+        //Commands
         [HttpPut("updating_{id}")]
         public async Task<IActionResult> UpdateAsync(string id,UpdateProductCommandRequest request)
         {
@@ -72,9 +63,13 @@ namespace UI.Controllers
             }
             return BadRequest();
         }
-        [HttpDelete]
-        public async Task<IActionResult> HardRemoveAsync(HardRemoveProductCommandRequest request)
+        [HttpPut("buying_{id}")]
+        public async Task<IActionResult> BuyProductAsync(string id, BuyProductCommandRequest request)
         {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
             var result = await _mediator.Send(request);
             if (result.IsSuccess)
             {
@@ -83,5 +78,19 @@ namespace UI.Controllers
             return BadRequest();
         }
 
+        [HttpPut("allBuying_{shopListId}")]
+        public async Task<IActionResult> BuyAllProductsAsync(string shopListId, BuyAllProductsCommandRequest request)
+        {
+            if (shopListId != request.ShopListId)
+            {
+                return BadRequest();
+            }
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

@@ -29,13 +29,12 @@ namespace Application.CQS.ProductR.Commands.RemoveProduct
         public async Task<CommandResponse> Handle(SoftRemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
             var removed = _mapper.Map<Product>(request);
-            _ = await _unitOfWork.ProductShopListWriteRepository.SoftRemoveByProductIdAsync(request.Id);
-            var result=await _unitOfWork.ProductWriteRepository.SoftRemoveAsync(removed);
+            var result = await _unitOfWork.ProductWriteRepository.SoftRemoveAsync(removed);
             if (result)
             {
                 return new CommandResponse { IsSuccess = true };
             }
-            else return new CommandResponse { IsSuccess = false };
+            return new CommandResponse { IsSuccess = false };
         }
     }
 }

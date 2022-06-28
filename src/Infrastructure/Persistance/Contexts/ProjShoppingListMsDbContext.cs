@@ -17,20 +17,18 @@ namespace Infrastructure.Persistance.Contexts
 {
     public class ProjShoppingListMsDbContext : IdentityDbContext<AppUser, AppRole, string>, IProjShoppingListDbContext
     {
-        public ProjShoppingListMsDbContext(DbContextOptions options) : base(options)
+        public ProjShoppingListMsDbContext(DbContextOptions<ProjShoppingListMsDbContext> options) : base(options)
         {
 
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ShopList> ShopLists { get; set; }
-        public DbSet<ProductShopList> ProductShopList { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new CategoryMap());
             builder.ApplyConfiguration(new ProductMap());
-            builder.ApplyConfiguration(new ProductShopListMap());
             builder.ApplyConfiguration(new ShopListMap());
         }
 

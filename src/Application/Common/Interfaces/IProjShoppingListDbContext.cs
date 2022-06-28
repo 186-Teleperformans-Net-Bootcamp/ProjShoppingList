@@ -13,6 +13,7 @@ namespace Application.Common.Interfaces
         DbSet<Product> Products { get; set; }
         DbSet<Category> Categories { get; set; }
         DbSet<ShopList> ShopLists { get; set; }
-        DbSet<ProductShopList> ProductShopList { get; set; }
+
+        //Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

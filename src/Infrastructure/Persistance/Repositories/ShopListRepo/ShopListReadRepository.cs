@@ -1,5 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.Common.Repositories.ShopListRepo;
+using Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination;
+using Application.DTOs;
 using Domain.Entities;
 using Infrastructure.Persistance.Contexts;
 using Microsoft.Extensions.Caching.Distributed;
@@ -20,6 +22,17 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
         {
             _distributedCache = distributedCache;
             _context = context;
+        }
+
+        public List<GetAllShopListsQueryResponse> ConvertToResponse(List<ShopListDto> list)
+        {
+            var convertedList = new List<GetAllShopListsQueryResponse>();
+            foreach (var item in list)
+            {
+               var categoryName= _context.Categories.SingleOrDefault(f => f.Id == item.CategoryId).Name;
+                convertedList.Add(new GetAllShopListsQueryResponse { Title = item.Title, CategoryName = categoryName, Description = item.Description });
+            }
+            return convertedList;
         }
 
         public async Task<List<ShopList>> GetAllCacheAsync(string cacheKey)
@@ -45,7 +58,7 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
             return cachedList;
         }
 
-        public async Task<List<ShopList>> GetAllWithPaginationAsync(string userId, PaginatedParameters paginatedParameters)
+        public async Task<List<ShopList>> GetAllShopListsByUserIdAsync(string userId, PaginatedParameters paginatedParameters)
         {
             var result = PaginatedList<ShopList>.ToPagedList(_context.ShopLists.Where(w => w.UserId == userId), paginatedParameters.PageNumber, paginatedParameters.PageSize);
             return result;

@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.RabbitMq
 {
-    public class ProducerOperations : IRabbitMqService
+    public class ProducerOperations 
     {
-        public string HostName { get; set; } = "";
-        public string UserName { get; set; } = "";
-        public string Password { get; set; } = "";
-        public ProducerOperations()
+
+        private readonly IRabbitMqService _rabbitService;
+
+        public ProducerOperations(IRabbitMqService rabbitService)
         {
-            GetSettings();
+            _rabbitService = rabbitService;
         }
 
         public void SendDataToQueue(CompletedList list)
         {
-            var factory = new ConnectionFactory() { HostName = this.HostName, UserName = this.UserName, Password = this.Password };
+            var factory = new ConnectionFactory() { HostName = _rabbitService.HostName, UserName = _rabbitService.UserName, Password = _rabbitService.Password };
             using (IConnection connection=factory.CreateConnection())
             using(IModel channel = connection.CreateModel())
             {
@@ -42,16 +42,5 @@ namespace Infrastructure.RabbitMq
             }
            
         }
-        private void GetSettings()
-        {
-            ConfigurationManager configurationManager = new();
-            configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../UI"));
-            configurationManager.AddJsonFile("appsettings.json");
-            HostName = configurationManager["RabbitMqOptions:HostName"];
-            UserName = configurationManager["RabbitMqOptions:UserName"];
-            Password = configurationManager["RabbitMqOptions:Password"];
-        }
-
-     
     }
 }

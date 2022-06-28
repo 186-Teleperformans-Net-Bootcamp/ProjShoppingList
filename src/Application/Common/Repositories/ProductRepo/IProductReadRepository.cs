@@ -10,7 +10,7 @@ namespace Application.Common.Repositories.ProductRepo
 {
     public interface IProductReadRepository : IReadRepository<Product>
     {
-        Task<List<Product>> GetAllWithPaginationAsync(PaginatedParameters paginatedParameters);
+        Task<List<Product>> GetAllProductsInShopListAsync(string shopListId, PaginatedParameters paginatedParameters);
 
     }
 }

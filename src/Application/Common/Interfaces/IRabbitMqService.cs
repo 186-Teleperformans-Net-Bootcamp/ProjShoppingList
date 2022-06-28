@@ -9,10 +9,9 @@ namespace Application.Common.Interfaces
 {
     public interface IRabbitMqService
     {
-        public string HostName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
-        void SendDataToQueue(CompletedList list);
+        public string HostName { get; }
+        public string UserName { get; }
+        public string Password { get; }
+        string[] GetSettings();
     }
 }

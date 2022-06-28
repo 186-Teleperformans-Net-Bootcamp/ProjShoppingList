@@ -16,10 +16,7 @@ namespace Infrastructure.Persistance.Mapping
             builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p=>p.Price).IsRequired();
-            builder.Property(p=>p.IsExist).IsRequired().HasDefaultValue(true);
-            builder.Property(p=>p.CategoryId).IsRequired();
             builder.Property(p=>p.Unit).IsRequired();
-            builder.Property(p => p.StockAmount).IsRequired();
         }
     }
 }

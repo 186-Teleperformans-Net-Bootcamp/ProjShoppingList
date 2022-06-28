@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CQS.ShopListR.Queries.GetAllShopLists
+namespace Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination
 {
     public class GetAllShopListsQueryResponse
     {
-        public string UserId { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
-        public bool IsCompleted { get; set; }
+        public string CategoryName { get; set; }
     }
 }

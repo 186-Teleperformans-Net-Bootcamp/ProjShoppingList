@@ -19,7 +19,7 @@ namespace Application.CQS.ProductR.Commands.BuyProduct
 
         public async Task<CommandResponse> Handle(BuyProductCommandRequest request, CancellationToken cancellationToken)
         {
-            var result = _unitOfWork.ProductShopListWriteRepository.BuyProductInShopList(request.Id);
+            var result = await _unitOfWork.ProductWriteRepository.BuyProductById(request.Id);
             if (result)
             {
                 return new CommandResponse { IsSuccess = true };

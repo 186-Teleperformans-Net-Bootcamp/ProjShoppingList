@@ -10,12 +10,14 @@ namespace Domain.Entities
 {
     public class ShopList : BaseEntity
     {
+        public string Title { get; set; }
         public string UserId { get; set; }
-        public string Type { get; set; }
-        public string Name { get; set; }
+        [ForeignKey("CategoryId")]
+        public string CategoryId { get; set; }
+        public Category Category { get; set; }
         public bool IsCompleted { get; set; } = false;
         public DateTime? CompletedDate { get; set; }
-        public IList<ProductShopList> ProductShopList { get; set; }
+        public IList<Product> Products { get; set; }
 
     }
 }

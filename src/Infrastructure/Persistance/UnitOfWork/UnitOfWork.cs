@@ -1,12 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Repositories.CategoryRepo;
 using Application.Common.Repositories.ProductRepo;
-using Application.Common.Repositories.ProductShopListRepo;
 using Application.Common.Repositories.ShopListRepo;
 using Infrastructure.Persistance.Contexts;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
-using Infrastructure.Persistance.Repositories.ProductShopListRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -27,8 +25,6 @@ namespace Infrastructure.Persistance.UnitOfWork
         private CategoryWriteRepository _categoryWriteRepository;
         private ShopListReadRepository _shopListReadRepository;
         private ShopListWriteRepository _shopListWriteRepository;
-        private ProductShopListReadRepository _productShopListReadRepository;
-        private ProductShopListWriteRepository _productShopListWriteRepository;
 
         public UnitOfWork(ProjShoppingListMsDbContext context, IDistributedCache distributedCache)
         {
@@ -44,9 +40,6 @@ namespace Infrastructure.Persistance.UnitOfWork
 
         public ICategoryWriteRepository CategoryWriteRepository => _categoryWriteRepository ?? (_categoryWriteRepository = new CategoryWriteRepository(_context));
 
-        public IProductShopListReadRepository ProductShopListReadRepository => _productShopListReadRepository ?? (_productShopListReadRepository = new ProductShopListReadRepository(_context));
-
-        public IProductShopListWriteRepository ProductShopListWriteRepository => _productShopListWriteRepository ?? (_productShopListWriteRepository = new ProductShopListWriteRepository(_context));
 
         public IShopListReadRepository ShopListReadRepository => _shopListReadRepository ?? (_shopListReadRepository = new ShopListReadRepository(_context, _distributedCache));
 

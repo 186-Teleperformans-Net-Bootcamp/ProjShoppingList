@@ -1,18 +1,15 @@
 ﻿using Application.Common.Models;
-using Application.CQS.ShopListR.Commands.AddProductToShopList;
 using Application.CQS.ShopListR.Commands.AddShopList;
 using Application.CQS.ShopListR.Commands.CompleteShopList;
-using Application.CQS.ShopListR.Commands.RemoveProductFromShopList;
 using Application.CQS.ShopListR.Commands.RemoveShopList;
 using Application.CQS.ShopListR.Commands.UpdateShopList;
-using Application.CQS.ShopListR.Queries.GetAllProductsInShopList;
 using Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Enums;
-using Application.CQS.ShopListR.Queries.GetAllShopLists;
+using Application.CQS.ProductR.Queries;
 
 namespace UI.Controllers
 {
@@ -27,15 +24,10 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         //Queries
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllAsync([FromQuery]GetAllShopListsQueryRequest request)
-        {
-            var result = await _mediator.Send(request);
-            return Ok(result);
-        }
+       
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("GetAllShopListByUserId_{userId}")]
-        public async Task<ActionResult<PaginatedList<GetAllShopListsForUserWithPaginationQueryResponse>>> GetAllShopListByUserIdAsync(string userId,[FromQuery]GetAllShopListsForUserWithPaginationQueryRequest request)
+        public async Task<ActionResult<PaginatedList<GetAllShopListsQueryResponse>>> GetAllShopListByUserIdAsync(string userId,[FromQuery]GetAllShopListsQueryRequest request)
         {
             if (userId!=request.UserId)
             {
@@ -47,7 +39,7 @@ namespace UI.Controllers
         }
         [Authorize(Roles = UserRoles.User)]
         [HttpGet("GetAllProductsInShopList_{shopListId}")]
-        public async Task<IActionResult> GetAllProductsShopListId(string shopListId, [FromQuery]GetAllProductsInShopListQueryRequest request)
+        public async Task<IActionResult> GetAllProductsShopListId(string shopListId, [FromQuery] GetAllProductsInShopListQueryRequest request)
         {
             if (shopListId!=request.ShopListId)
             {
@@ -58,37 +50,22 @@ namespace UI.Controllers
         }
 
         //Commands
-        [Authorize(Roles = UserRoles.User)]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> RemoveProductFromShopListAsync(string id, RemoveProductFromShopListCommandRequest request)
-        {
-            if (id!=request.Id)
-            {
-                return BadRequest();
-            }
-            var result=await _mediator.Send(request);
-            if (result.IsSuccess)
-            {
-                return NoContent();
-            }
-            return BadRequest(result.Errors);
-        }
 
-        [Authorize(Roles = UserRoles.User)]
-        [HttpPost("{shopListId},{productId}")]
-        public async Task<IActionResult> AddProductToShopListAsync(string shopListId, string productId, AddProductToShopListCommandRequest request)
-        {
-            if (shopListId!=request.ShopListId || productId!=request.ProductId)
-            {
-                return BadRequest();
-            }
-            var result = await _mediator.Send(request);
-            if (result.IsSuccess)
-            {
-                return StatusCode(201);
-            }
-            return BadRequest(result.Errors);
-        }
+        //[Authorize(Roles = UserRoles.User)]
+        //[HttpPost("{shopListId},{productId}")]
+        //public async Task<IActionResult> AddProductToShopListAsync(string shopListId, string productId, AddProductToShopListCommandRequest request)
+        //{
+        //    if (shopListId!=request.ShopListId || productId!=request.ProductId)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var result = await _mediator.Send(request);
+        //    if (result.IsSuccess)
+        //    {
+        //        return StatusCode(201);
+        //    }
+        //    return BadRequest(result.Errors);
+        //}
         [Authorize(Roles = UserRoles.User)]
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddShopListCommandRequest request)
@@ -98,7 +75,7 @@ namespace UI.Controllers
             {
                 return StatusCode(201);
             }
-            return BadRequest(result.Errors);
+            return BadRequest(result.Error);
         }
         [Authorize(Roles = UserRoles.User)]
         [HttpPut("updating_{id}")]

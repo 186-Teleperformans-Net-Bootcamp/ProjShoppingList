@@ -11,7 +11,7 @@ namespace Application.CQS.ShopListR.Commands.AddShopList
     {
         public string UserId { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        public string CategoryId { get; set; }
         public string Description { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination;
+using Application.DTOs;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ namespace Application.Common.Repositories.ShopListRepo
 {
     public  interface IShopListReadRepository:IReadRepository<ShopList>, IRedisCacheService<ShopList>
     {
-        Task<List<ShopList>> GetAllWithPaginationAsync(string userId,PaginatedParameters paginatedParameters);
+        Task<List<ShopList>> GetAllShopListsByUserIdAsync(string userId,PaginatedParameters paginatedParameters);
+        List<GetAllShopListsQueryResponse> ConvertToResponse(List<ShopListDto> list);
     }
 }

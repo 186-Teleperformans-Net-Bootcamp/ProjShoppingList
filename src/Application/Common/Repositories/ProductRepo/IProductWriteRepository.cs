@@ -10,5 +10,7 @@ namespace Application.Common.Repositories.ProductRepo
     public interface IProductWriteRepository:IWriteRepository<Product>
     {
         Task<bool> UpdateProductAsync(Product product);
+        Task<bool> BuyAllProductsByShopListIdAsync(string shopListId);
+        Task<bool> BuyProductById(string productId);
     }
 }

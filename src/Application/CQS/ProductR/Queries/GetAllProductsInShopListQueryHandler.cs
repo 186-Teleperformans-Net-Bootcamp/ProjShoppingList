@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Application.CQS.ProductR.Queries
 {
-    public class GetAllProductsWithPaginationQueryHandler : IRequestHandler<GetAllProductsWithPaginationQueryRequest, PaginatedList<GetAllProductsQueryResponse>>
+    public class GetAllProductsInShopListQueryHandler : IRequestHandler<GetAllProductsInShopListQueryRequest, PaginatedList<GetAllProductsInShopListQueryResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllProductsWithPaginationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetAllProductsInShopListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -26,15 +26,15 @@ namespace Application.CQS.ProductR.Queries
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<PaginatedList<GetAllProductsQueryResponse>> Handle(GetAllProductsWithPaginationQueryRequest request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<GetAllProductsInShopListQueryResponse>> Handle(GetAllProductsInShopListQueryRequest request, CancellationToken cancellationToken)
         {
             var mapped = await _unitOfWork
                 .ProductReadRepository
-                .GetAllWithPaginationAsync(
-                new PaginatedParameters { PageNumber = request.PageNumber, PageSize = request.PageSize }
+                .GetAllProductsInShopListAsync(
+                request.ShopListId, new PaginatedParameters { PageNumber = request.PageNumber, PageSize = request.PageSize }
                 );
-            var result = _mapper.Map<List<GetAllProductsQueryResponse>>(mapped);
-            return new PaginatedList<GetAllProductsQueryResponse>(result, result.Count, request.PageNumber, request.PageSize);
+            var result = _mapper.Map<List<GetAllProductsInShopListQueryResponse>>(mapped);
+            return new PaginatedList<GetAllProductsInShopListQueryResponse>(result, result.Count, request.PageNumber, request.PageSize);
         }
     }
 }

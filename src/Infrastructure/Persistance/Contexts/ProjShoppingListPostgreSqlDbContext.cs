@@ -11,7 +11,7 @@ namespace Infrastructure.Persistance.Contexts
 {
     public class ProjShoppingListPostgreSqlDbContext : DbContext, IProjShoppingListAdminDbContext
     {
-        public ProjShoppingListPostgreSqlDbContext(DbContextOptions options):base(options)
+        public ProjShoppingListPostgreSqlDbContext(DbContextOptions<ProjShoppingListPostgreSqlDbContext> options):base(options)
         {
 
         }

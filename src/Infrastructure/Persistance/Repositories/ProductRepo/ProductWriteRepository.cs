@@ -1,4 +1,5 @@
-﻿using Application.Common.Repositories.ProductRepo;
+﻿using Application.Common.Interfaces;
+using Application.Common.Repositories.ProductRepo;
 using Domain.Entities;
 using Infrastructure.Persistance.Contexts;
 using System;
@@ -12,8 +13,38 @@ namespace Infrastructure.Persistance.Repositories.ProductRepo
     public class ProductWriteRepository : WriteRepository<Product>, IProductWriteRepository
     {
         private readonly ProjShoppingListMsDbContext _context;
-        public ProductWriteRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
+        public ProductWriteRepository(ProjShoppingListMsDbContext context) : base(context)
+        {
+            _context = context;
+        }
 
+        public async Task<bool> BuyAllProductsByShopListIdAsync(string shopListId)
+        {
+            var products= await Task.Run(()=> _context.Products.Where(p => p.ShopListId == shopListId).ToList());
+            if (products.Count>-1)
+            {
+                foreach (var product in products)
+                {
+                    product.IsBuy = true;
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> BuyProductById(string productId)
+        {
+            var product = await Task.Run(() => _context.Products.SingleOrDefault(s => s.Id == productId));
+            if (product!=null)
+            {
+                product.IsBuy = true;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        
 
         public async Task<bool> UpdateProductAsync(Product product)
         {
@@ -25,15 +56,11 @@ namespace Infrastructure.Persistance.Repositories.ProductRepo
 
             updatedProduct.Price = updatedProduct.Price == product.Price ? _ = updatedProduct.Price : updatedProduct.Price = product.Price;
 
-            updatedProduct.StockAmount = updatedProduct.StockAmount == product.StockAmount ? _ = updatedProduct.StockAmount : updatedProduct.StockAmount = product.StockAmount;
-
-            updatedProduct.CategoryId = updatedProduct.CategoryId == product.CategoryId ? _ = updatedProduct.CategoryId : updatedProduct.CategoryId = product.CategoryId;
-
             updatedProduct.IsActive = updatedProduct.IsActive == product.IsActive ? _ = updatedProduct.IsActive : updatedProduct.IsActive = product.IsActive;
 
             updatedProduct.Unit = updatedProduct.Unit == product.Unit ? _ = updatedProduct.Unit : updatedProduct.Unit = product.Unit;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
     }

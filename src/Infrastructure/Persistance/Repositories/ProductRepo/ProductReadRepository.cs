@@ -16,9 +16,10 @@ namespace Infrastructure.Persistance.Repositories.ProductRepo
         private readonly ProjShoppingListMsDbContext _context;
         public ProductReadRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
 
-        public async Task<List<Product>> GetAllWithPaginationAsync(PaginatedParameters paginatedParameters)
+        public async Task<List<Product>> GetAllProductsInShopListAsync(string shopListId,PaginatedParameters paginatedParameters)
         {
-            var result = PaginatedList<Product>.ToPagedList(_context.Products, paginatedParameters.PageNumber, paginatedParameters.PageSize);
+            var list = _context.Products.Where(w => w.ShopListId == shopListId);
+            var result = PaginatedList<Product>.ToPagedList(list, paginatedParameters.PageNumber, paginatedParameters.PageSize);
             return result;
         }
     }
