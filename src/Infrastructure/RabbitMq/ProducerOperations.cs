@@ -51,5 +51,7 @@ namespace Infrastructure.RabbitMq
             UserName = configurationManager["RabbitMqOptions:UserName"];
             Password = configurationManager["RabbitMqOptions:Password"];
         }
+
+     
     }
 }
