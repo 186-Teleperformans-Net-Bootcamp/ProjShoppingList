@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.CQS.ProductR.Commands.AddProductToShopList;
 using Application.CQS.ProductR.Commands.RemoveProduct;
 using Application.CQS.ProductR.Commands.UpdateProduct;
 using Application.CQS.ProductR.Queries;
@@ -19,8 +20,11 @@ namespace Application.Mapping
             //Command
             CreateMap<SoftRemoveProductCommandRequest,Product>().ReverseMap(); 
             CreateMap<UpdateProductCommandRequest, Product>().ReverseMap();
+            CreateMap<AddProductToShopListCommandRequest, Product>().ReverseMap();
+
             //Query
             CreateMap<Product,GetAllProductsInShopListQueryResponse>().ReverseMap();
+            
         }
     }
 }

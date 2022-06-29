@@ -10,5 +10,6 @@ namespace Application.Common.Repositories.ShopListRepo
     public interface IShopListWriteRepository : IWriteRepository<ShopList>
     {
         Task<bool> CompleteAsync(string id);
+        Task<bool> AddShopListAdminAsync(ShopList shopList);
     }
 }

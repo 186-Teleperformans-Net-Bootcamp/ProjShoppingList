@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Common.Repositories.ProductRepo;
+using Application.CQS.ProductR.Commands.AddProductToShopList;
 using Application.CQS.ProductR.Commands.BuyAllProducts;
 using Application.CQS.ProductR.Commands.BuyProduct;
 using Application.CQS.ProductR.Commands.RemoveProduct;
@@ -22,6 +23,7 @@ namespace UI.Controllers
         {
             _mediator = mediator;
         }
+        //Queries
         [HttpGet]
         public async Task<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>> GetAllProductsInShopListAsync([FromQuery] GetAllProductsInShopListQueryRequest request)
         {
@@ -34,6 +36,21 @@ namespace UI.Controllers
             return BadRequest();
         }
         //Commands
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddAsync(string shopListId,AddProductToShopListCommandRequest request)
+        {
+            if (shopListId!=request.ShopListId)
+            {
+                return BadRequest();
+            }
+            var result=await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(result.Error);                
+        }
+
         [HttpPut("updating_{id}")]
         public async Task<IActionResult> UpdateAsync(string id,UpdateProductCommandRequest request)
         {

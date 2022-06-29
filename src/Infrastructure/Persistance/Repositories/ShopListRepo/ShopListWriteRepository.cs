@@ -12,8 +12,20 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
     public class ShopListWriteRepository : WriteRepository<ShopList>, IShopListWriteRepository
     {
         private readonly ProjShoppingListMsDbContext _context;
-        public ShopListWriteRepository(ProjShoppingListMsDbContext context) : base(context) => _context = context;
+        private readonly ProjShoppingListPostgreSqlDbContext _postgreContext;
+        public ShopListWriteRepository(ProjShoppingListMsDbContext context, ProjShoppingListPostgreSqlDbContext postgreContext) : base(context) =>
+            (_context, _postgreContext) = (context, postgreContext);
 
+        public async Task<bool> AddShopListAdminAsync(ShopList shopList)
+        {
+            if (shopList!=null)
+            {
+                await _postgreContext.AddAsync(shopList);
+                await _postgreContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
 
         public async Task<bool> CompleteAsync(string id)
         {
