@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Enums;
 using Application.CQS.ProductR.Queries;
+using Application.CQS.ShopListR.Queries.GetAllUserShopListsByCategory;
 
 namespace UI.Controllers
 {
@@ -24,24 +25,35 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         //Queries
-       
-        [Authorize(Roles = UserRoles.Admin)]
-        [HttpGet("GetAllShopListByUserId_{userId}")]
-        public async Task<ActionResult<PaginatedList<GetAllShopListsQueryResponse>>> GetAllShopListByUserIdAsync(string userId,[FromQuery]GetAllShopListsQueryRequest request)
+        [HttpGet("GetAllUsersShopListsByCategory_{categoryId}/{userId}")]
+        public async Task<ActionResult<PaginatedList<GetAllUsersShopListsByCategoryQueryResponse>>> GetAllShopListByUserIdAsync(string categoryId, string userId, [FromQuery] GetAllUsersShopListsByCategoryQueryRequest request)
         {
-            if (userId!=request.UserId)
+            if (userId != request.UserId || categoryId != request.CategoryId)
             {
                 return BadRequest();
             }
-            var result=await _mediator.Send(request);
+            var result = await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             return result;
         }
-        [Authorize(Roles = UserRoles.User)]
-        [HttpGet("GetAllProductsInShopList_{shopListId}")]
-        public async Task<IActionResult> GetAllProductsShopListId(string shopListId, [FromQuery] GetAllProductsInShopListQueryRequest request)
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpGet("GetAllShopListByUserId_{userId}")]
+        public async Task<ActionResult<PaginatedList<GetAllShopListsQueryResponse>>> GetAllShopListByUserIdAsync(string userId, [FromQuery] GetAllShopListsQueryRequest request)
         {
-            if (shopListId!=request.ShopListId)
+            if (userId != request.UserId)
+            {
+                return BadRequest();
+            }
+            var result = await _mediator.Send(request);
+            Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
+            return result;
+        }
+        //[Authorize(Roles = UserRoles.User)]
+        [HttpGet("GetAllProductsInShopList_{shopListId}")]
+        public async Task<IActionResult> GetAllProductsByShopListId(string shopListId, [FromQuery] GetAllProductsInShopListQueryRequest request)
+        {
+            if (shopListId != request.ShopListId)
             {
                 return BadRequest();
             }
@@ -52,22 +64,7 @@ namespace UI.Controllers
         //Commands
 
         //[Authorize(Roles = UserRoles.User)]
-        //[HttpPost("{shopListId},{productId}")]
-        //public async Task<IActionResult> AddProductToShopListAsync(string shopListId, string productId, AddProductToShopListCommandRequest request)
-        //{
-        //    if (shopListId!=request.ShopListId || productId!=request.ProductId)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var result = await _mediator.Send(request);
-        //    if (result.IsSuccess)
-        //    {
-        //        return StatusCode(201);
-        //    }
-        //    return BadRequest(result.Errors);
-        //}
-        [Authorize(Roles = UserRoles.User)]
-        [HttpPost]
+        [HttpPost("adding")]
         public async Task<IActionResult> AddAsync(AddShopListCommandRequest request)
         {
             var result = await _mediator.Send(request);
@@ -77,7 +74,7 @@ namespace UI.Controllers
             }
             return BadRequest(result.Error);
         }
-        [Authorize(Roles = UserRoles.User)]
+        //[Authorize(Roles = UserRoles.User)]
         [HttpPut("updating_{id}")]
         public async Task<IActionResult> UpdateAsync(string id, UpdateShopListCommandRequest request)
         {
@@ -88,8 +85,8 @@ namespace UI.Controllers
             await _mediator.Send(request);
             return StatusCode(204);
         }
-        [Authorize(Roles = UserRoles.User)]
-        [HttpPatch("{id}")]
+        //[Authorize(Roles = UserRoles.User)]
+        [HttpPatch("completing_{id}")]
         public async Task<IActionResult> CompleteAsync(string id, CompleteShopListCommandRequest request)
         {
             if (id != request.Id)
@@ -100,7 +97,7 @@ namespace UI.Controllers
             return StatusCode(204);
         }
         // SoftRemove
-        [Authorize(Roles = UserRoles.User)]
+        //[Authorize(Roles = UserRoles.User)]
         [HttpPut("removing_{id}")]
         public async Task<IActionResult> RemoveAsync(string id, RemoveShopListCommandRequest request)
         {

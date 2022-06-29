@@ -29,6 +29,7 @@ namespace Application.Common.Models
 
         public static List<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
+            var x = source.Count();
             var items = source.Skip((pageNumber - 1) / pageSize)
                 .Take(pageSize)
                 .ToList();

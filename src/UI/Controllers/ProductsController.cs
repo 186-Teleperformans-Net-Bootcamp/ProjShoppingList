@@ -24,9 +24,13 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         //Queries
-        [HttpGet]
-        public async Task<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>> GetAllProductsInShopListAsync([FromQuery] GetAllProductsInShopListQueryRequest request)
+        [HttpGet("{shopListId}")]
+        public async Task<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>> GetAllProductsInShopListAsync(string shopListId, [FromQuery]GetAllProductsInShopListQueryRequest request)
         {
+            if (shopListId!=request.ShopListId)
+            {
+                return BadRequest();
+            }
             var result=await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             if (result.Count > -1)
@@ -36,7 +40,7 @@ namespace UI.Controllers
             return BadRequest();
         }
         //Commands
-        [HttpPost("{id}")]
+        [HttpPost("{shopListId}")]
         public async Task<IActionResult> AddAsync(string shopListId,AddProductToShopListCommandRequest request)
         {
             if (shopListId!=request.ShopListId)

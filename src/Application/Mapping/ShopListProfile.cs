@@ -1,6 +1,7 @@
 ﻿using Application.CQS.ShopListR.Commands.AddShopList;
 using Application.CQS.ShopListR.Commands.RemoveShopList;
 using Application.CQS.ShopListR.Commands.UpdateShopList;
+using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -15,10 +16,13 @@ namespace Application.Mapping
     {
         public ShopListProfile()
         {
+            //Commands
             CreateMap<AddShopListCommandRequest, ShopList>().ReverseMap();
             CreateMap<RemoveShopListCommandRequest, ShopList>().ReverseMap();
             CreateMap<UpdateShopListCommandRequest, ShopList>().ReverseMap();
             //Queries
+            CreateMap<ShopList, ShopListDto>().ReverseMap();
+
         }
     }
 }

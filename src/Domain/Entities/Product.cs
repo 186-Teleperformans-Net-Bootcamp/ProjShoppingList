@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Product : BaseEntity
+    public class Product : BaseEditableEntity
     {
         [ForeignKey("ShopListId")]
         public string ShopListId { get; set; }

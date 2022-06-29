@@ -1,6 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.Common.Repositories.ShopListRepo;
 using Application.CQS.ShopListR.Queries.GetAllShopListForUserWithPagination;
+using Application.CQS.ShopListR.Queries.GetAllUserShopListsByCategory;
 using Application.DTOs;
 using Domain.Entities;
 using Infrastructure.Persistance.Contexts;
@@ -29,8 +30,19 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
             var convertedList = new List<GetAllShopListsQueryResponse>();
             foreach (var item in list)
             {
-               var categoryName= _context.Categories.SingleOrDefault(f => f.Id == item.CategoryId).Name;
+                var categoryName = _context.Categories.SingleOrDefault(f => f.Id == item.CategoryId).Name;
                 convertedList.Add(new GetAllShopListsQueryResponse { Title = item.Title, CategoryName = categoryName, Description = item.Description });
+            }
+            return convertedList;
+        }
+
+        public List<GetAllUsersShopListsByCategoryQueryResponse> ConvertToResponse(string overloader = "", List<ShopListDto> list = null)
+        {
+            var convertedList = new List<GetAllUsersShopListsByCategoryQueryResponse>();
+            foreach (var item in list)
+            {
+                var categoryName = _context.Categories.SingleOrDefault(f => f.Id == item.CategoryId).Name;
+                convertedList.Add(new GetAllUsersShopListsByCategoryQueryResponse { Title = item.Title, CategoryName = categoryName, Description = item.Description });
             }
             return convertedList;
         }
@@ -47,7 +59,7 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
             }
             else
             {
-                cachedList =  _context.ShopLists.OrderBy(o=>o.UserId).ToList();
+                cachedList = _context.ShopLists.OrderBy(o => o.UserId).ToList();
                 json = JsonConvert.SerializeObject(cachedList);
                 cache = Encoding.UTF8.GetBytes(json);
                 var options = new DistributedCacheEntryOptions()
@@ -61,6 +73,12 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
         public async Task<List<ShopList>> GetAllShopListsByUserIdAsync(string userId, PaginatedParameters paginatedParameters)
         {
             var result = PaginatedList<ShopList>.ToPagedList(_context.ShopLists.Where(w => w.UserId == userId), paginatedParameters.PageNumber, paginatedParameters.PageSize);
+            return result;
+        }
+
+        public async Task<List<ShopList>> GetAllUsersShopListsByCategoryIdAsync(string categoryId, string userId, PaginatedParameters paginatedParameters)
+        {
+            var result = PaginatedList<ShopList>.ToPagedList(_context.ShopLists.Where(w => w.UserId == userId && w.CategoryId == categoryId), paginatedParameters.PageNumber, paginatedParameters.PageSize);
             return result;
         }
     }

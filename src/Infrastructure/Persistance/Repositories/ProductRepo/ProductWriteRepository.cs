@@ -52,8 +52,6 @@ namespace Infrastructure.Persistance.Repositories.ProductRepo
             
             updatedProduct.Name = updatedProduct.Name == product.Name ? _ = updatedProduct.Name : updatedProduct.Name = product.Name;
 
-            updatedProduct.Description = updatedProduct.Description == product.Description ? _ = updatedProduct.Description : updatedProduct.Description = product.Description;
-
             updatedProduct.Price = updatedProduct.Price == product.Price ? _ = updatedProduct.Price : updatedProduct.Price = product.Price;
 
             updatedProduct.IsActive = updatedProduct.IsActive == product.IsActive ? _ = updatedProduct.IsActive : updatedProduct.IsActive = product.IsActive;
