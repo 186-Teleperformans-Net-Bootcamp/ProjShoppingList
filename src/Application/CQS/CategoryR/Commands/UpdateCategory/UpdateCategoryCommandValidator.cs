@@ -11,29 +11,16 @@ namespace Application.CQS.CategoryR.Commands.UpdateCategory
 {
     public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommandRequest>
     {
-        private readonly IProjShoppingListDbContext _context;
-        public UpdateCategoryCommandValidator(IProjShoppingListDbContext context)
+        public UpdateCategoryCommandValidator()
         {
-          _context = context;
 
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(CategoryValidationMessages.NameNotEmpty)
-                .MaximumLength(200).MinimumLength(3).WithMessage(CategoryValidationMessages.NameMaxLength)
-                .MustAsync(UniqueName).WithMessage(CategoryValidationMessages.NameUnique);
+                .MaximumLength(200).MinimumLength(3).WithMessage(CategoryValidationMessages.NameMaxLength);
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage(CategoryValidationMessages.DescriptionNotEmpty)
                 .MaximumLength(200).MinimumLength(3).WithMessage(CategoryValidationMessages.DescriptionMaxLength);
-        }
-
-        public async Task<bool> UniqueName(string name, CancellationToken cancellationToken)
-        {
-            var control = _context.Categories.FirstOrDefault(f => f.Name == name);
-            if (control == null)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

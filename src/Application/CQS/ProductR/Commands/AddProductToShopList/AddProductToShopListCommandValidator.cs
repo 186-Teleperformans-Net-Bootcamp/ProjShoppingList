@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Consts.Messages.ValidationMessages;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,15 @@ namespace Application.CQS.ProductR.Commands.AddProductToShopList
 {
     public class AddProductToShopListCommandValidator:AbstractValidator<AddProductToShopListCommandRequest>
     {
-        private readonly IProjShoppingListDbContext _context;
         public AddProductToShopListCommandValidator()
         {
             RuleFor(x => x.ShopListId)
                 .NotEmpty().NotNull().WithMessage("Please enter correctly");
-            RuleFor()
-        }
-        public async Task<bool> UniqueId(string id, CancellationToken cancellationToken)
-        {
-            var control = _context.ShopLists.FirstOrDefault(f => f.Id == id);
-            if (control != null)
-            {
-                return true;
-            }
-            return false;
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage(ProductValidationMessages.NameNotEmpty)
+                .Length(3, 200).WithMessage(ProductValidationMessages.LengthName);
+            RuleFor(x => x.Price)
+                .GreaterThan(0).WithMessage(ProductValidationMessages.MinPrice);
         }
     }
 }

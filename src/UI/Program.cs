@@ -3,19 +3,13 @@ using Infrastructure.Persistance.DIContainer;
 using Application.Services;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using Application.Services.ValidationServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddControllers().AddFluentValidation(options =>
-{
-    // Validate child properties and root collection elements
-    options.ImplicitlyValidateChildProperties = true;
-    options.ImplicitlyValidateRootCollectionElements = true;
-    // Automatic registration of validators in assembly
-    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-}); 
+builder.Services.AddValidationServices();
 
 //DbRegistration
 builder.Services.AddDbServices(configuration);
