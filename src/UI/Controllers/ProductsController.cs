@@ -24,15 +24,16 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         //Queries
+        //<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>>
         [HttpGet("{shopListId}")]
-        public async Task<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>> GetAllProductsInShopListAsync(string shopListId, [FromQuery]GetAllProductsInShopListQueryRequest request)
+        public async Task<IActionResult> GetAllProductsInShopListAsync(string shopListId, [FromQuery]GetAllProductsInShopListQueryRequest request)
         {
             if (shopListId!=request.ShopListId)
             {
                 return BadRequest();
             }
             var result=await _mediator.Send(request);
-            Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
+            //Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             if (result.Count > -1)
             {
                 return Ok(result);
@@ -67,10 +68,10 @@ namespace UI.Controllers
             {
                 return Ok();
             }
-            else return BadRequest();
+            else return BadRequest(result.Error);
         }
 
-        [HttpPut("removing_{id}")]
+        [HttpPatch("removing_{id}")]
         public async Task<IActionResult> SoftRemoveAsync(string id,SoftRemoveProductCommandRequest request)
         {
             if (id!=request.Id)
@@ -82,9 +83,9 @@ namespace UI.Controllers
             {
                 return Ok();
             }
-            return BadRequest();
+            return BadRequest(result.Error);
         }
-        [HttpPut("buying_{id}")]
+        [HttpPatch("buying_{id}")]
         public async Task<IActionResult> BuyProductAsync(string id, BuyProductCommandRequest request)
         {
             if (id != request.Id)
