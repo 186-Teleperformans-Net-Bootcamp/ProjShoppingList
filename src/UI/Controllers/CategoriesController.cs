@@ -23,7 +23,7 @@ namespace UI.Controllers
         }
         [HttpGet]
         //[Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<List<GetAllCategoriesQueryResponse>>> GetAllCategoriesAsync([FromQuery] GetAllCategoriesQueryRequest request)
+        public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] GetAllCategoriesQueryRequest request)
         {
             var result = await _mediator.Send(request);
             if (result.Count > -1)
