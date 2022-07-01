@@ -26,7 +26,7 @@ namespace UI.Controllers
         }
         //Queries
         [HttpGet("GetAllUsersShopListsByCategory_{categoryId}/{userId}")]
-        public async Task<ActionResult<PaginatedList<GetAllUsersShopListsByCategoryQueryResponse>>> GetAllShopListByUserIdAsync(string categoryId, string userId, [FromQuery] GetAllUsersShopListsByCategoryQueryRequest request)
+        public async Task<IActionResult> GetAllShopListByCategoryIdAsync(string categoryId, string userId, [FromQuery] GetAllUsersShopListsByCategoryQueryRequest request)
         {
             if (userId != request.UserId || categoryId != request.CategoryId)
             {
@@ -34,12 +34,12 @@ namespace UI.Controllers
             }
             var result = await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
-            return result;
+            return Ok(result);
         }
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpGet("GetAllShopListByUserId_{userId}")]
-        public async Task<ActionResult<PaginatedList<GetAllShopListsQueryResponse>>> GetAllShopListByUserIdAsync(string userId, [FromQuery] GetAllShopListsQueryRequest request)
+        public async Task<IActionResult> GetAllShopListByUserIdAsync(string userId, [FromQuery] GetAllShopListsQueryRequest request)
         {
             if (userId != request.UserId)
             {
@@ -47,7 +47,7 @@ namespace UI.Controllers
             }
             var result = await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
-            return result;
+            return Ok(result);
         }
         //[Authorize(Roles = UserRoles.User)]
         [HttpGet("GetAllProductsInShopList_{shopListId}")]
