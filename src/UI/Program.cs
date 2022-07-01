@@ -4,6 +4,8 @@ using Application.Services;
 using FluentValidation.AspNetCore;
 using System.Reflection;
 using Application.Services.ValidationServices;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure.Persistance.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
