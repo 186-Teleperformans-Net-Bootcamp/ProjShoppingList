@@ -20,12 +20,9 @@ namespace Infrastructure.RabbitMq
         }
         private void SetSettings()
         {
-            ConfigurationManager configurationManager = new();
-            configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../UI"));
-            configurationManager.AddJsonFile("appsettings.json");
-            HostName = configurationManager["RabbitMqOptions:HostName"];
-            UserName = configurationManager["RabbitMqOptions:UserName"];
-            Password = configurationManager["RabbitMqOptions:Password"];
+            HostName = "localhost";
+            UserName = "Berengaar";
+            Password = "Berengaar123";
         }
 
         public string[] GetSettings()

@@ -1,6 +1,9 @@
-﻿using Application.Common.Repositories.ShopListRepo;
+﻿using Application.Common.Interfaces;
+using Application.Common.Repositories.ShopListRepo;
 using Domain.Entities;
+using Domain.Entities.AdminEntities;
 using Infrastructure.Persistance.Contexts;
+using Infrastructure.RabbitMq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +16,15 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
     {
         private readonly ProjShoppingListMsDbContext _context;
         private readonly ProjShoppingListPostgreSqlDbContext _postgreContext;
-        public ShopListWriteRepository(ProjShoppingListMsDbContext context, ProjShoppingListPostgreSqlDbContext postgreContext) : base(context) =>
-            (_context, _postgreContext) = (context, postgreContext);
+        private readonly IProducer _producer;
+        public ShopListWriteRepository(ProjShoppingListMsDbContext context, ProjShoppingListPostgreSqlDbContext postgreContext, IProducer producer) : base(context) =>
+            (_context, _postgreContext,_producer) = (context, postgreContext,producer);
 
-        public async Task<bool> AddShopListAdminAsync(ShopList shopList)
+        public async Task<bool> AddShopListAdminAsync(CompletedList completedShopList)
         {
-            if (shopList!=null)
+            if (completedShopList != null)
             {
-                await _postgreContext.AddAsync(shopList);
+                await _postgreContext.AddAsync(completedShopList);
                 await _postgreContext.SaveChangesAsync();
                 return true;
             }
@@ -32,6 +36,17 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
             var completedList = await Task.Run(() => _context.ShopLists.SingleOrDefault(s => s.Id == id));
             completedList.IsCompleted = true;
             _context.SaveChanges();
+            CompletedList adminCompletedList = new CompletedList
+            {
+                Title = completedList.Title,
+                CreatedDate = completedList.CreatedDate,
+                Description=completedList.Description,
+                Id = id,
+                IsActive = completedList.IsActive,
+                ModifiedDate= completedList.ModifiedDate,
+                UserId=completedList.UserId,
+            };
+            _producer.SendDataToQueue(adminCompletedList);
             return true;
         }
     }

@@ -13,12 +13,9 @@ namespace Test.Integrations
 {
     public class CategoriesControllerTests
     {
-        private readonly HttpClient _client;
-        public CategoriesControllerTests()
-        {
-        }
+       
         [Fact]
-        public async void Add()
+        public async void GetAsync()
         {
             var webAppFactory = new WebApplicationFactory<Program>();
             var httpClient = webAppFactory.CreateDefaultClient();

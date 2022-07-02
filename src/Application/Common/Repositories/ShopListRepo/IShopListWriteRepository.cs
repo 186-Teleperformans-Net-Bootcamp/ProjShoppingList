@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.AdminEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Application.Common.Repositories.ShopListRepo
     public interface IShopListWriteRepository : IWriteRepository<ShopList>
     {
         Task<bool> CompleteAsync(string id);
-        Task<bool> AddShopListAdminAsync(ShopList shopList);
+        Task<bool> AddShopListAdminAsync(CompletedList completedShopList);
     }
 }

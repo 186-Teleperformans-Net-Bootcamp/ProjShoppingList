@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Enums;
 using Application.CQS.ProductR.Queries;
 using Application.CQS.ShopListR.Queries.GetAllUserShopListsByCategory;
+using Application.CQS.ShopListR.Commands.AddShopListAdmin;
 
 namespace UI.Controllers
 {
@@ -66,6 +67,16 @@ namespace UI.Controllers
         //[Authorize(Roles = UserRoles.User)]
         [HttpPost("adding")]
         public async Task<IActionResult> AddAsync(AddShopListCommandRequest request)
+        {
+            var result = await _mediator.Send(request);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(result.Error);
+        }
+        [HttpPost("adding-admin")]
+        public async Task<IActionResult> AddAdminAsync(AddShopListAdminCommandRequest request)
         {
             var result = await _mediator.Send(request);
             if (result.IsSuccess)

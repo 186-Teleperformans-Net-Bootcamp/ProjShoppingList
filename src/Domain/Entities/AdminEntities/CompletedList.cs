@@ -10,6 +10,6 @@ namespace Domain.Entities.AdminEntities
     public class CompletedList : BaseEntity
     {
         public string UserId { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
     }
 }

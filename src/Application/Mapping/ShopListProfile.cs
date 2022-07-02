@@ -1,4 +1,5 @@
 ﻿using Application.CQS.ShopListR.Commands.AddShopList;
+using Application.CQS.ShopListR.Commands.AddShopListAdmin;
 using Application.CQS.ShopListR.Commands.RemoveShopList;
 using Application.CQS.ShopListR.Commands.UpdateShopList;
 using Application.DTOs;
@@ -18,6 +19,7 @@ namespace Application.Mapping
         {
             //Commands
             CreateMap<AddShopListCommandRequest, ShopList>().ReverseMap();
+            CreateMap<AddShopListAdminCommandRequest, ShopList>().ReverseMap();
             CreateMap<RemoveShopListCommandRequest, ShopList>().ReverseMap();
             CreateMap<UpdateShopListCommandRequest, ShopList>().ReverseMap();
             //Queries

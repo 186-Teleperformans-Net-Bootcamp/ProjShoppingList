@@ -6,6 +6,7 @@ using Infrastructure.Identity;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
+using Infrastructure.RabbitMq;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace Infrastructure.Persistance.DIContainer
             services.AddScoped<IShopListWriteRepository, ShopListWriteRepository>();
             services.AddScoped<IUnitOfWork, Infrastructure.Persistance.UnitOfWork.UnitOfWork>();
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IProducer, ProducerOperations>();
+            services.AddScoped<IRabbitMqService, RabbitMqService>();
         }
     }
 }

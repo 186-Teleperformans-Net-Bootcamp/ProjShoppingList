@@ -18,6 +18,7 @@ namespace Infrastructure.Persistance.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDistributedCache _distributedCache;
+        private readonly IProducer _producer;
         private readonly ProjShoppingListMsDbContext _context;
         private readonly ProjShoppingListPostgreSqlDbContext _postgreContext;
         private ProductReadRepository _productReadRepository;
@@ -27,10 +28,11 @@ namespace Infrastructure.Persistance.UnitOfWork
         private ShopListReadRepository _shopListReadRepository;
         private ShopListWriteRepository _shopListWriteRepository;
 
-        public UnitOfWork(ProjShoppingListMsDbContext context, IDistributedCache distributedCache)
+        public UnitOfWork(ProjShoppingListMsDbContext context, IDistributedCache distributedCache, IProducer producer)
         {
             _context = context;
             _distributedCache = distributedCache;
+            _producer = producer;
         }
 
         public IProductReadRepository ProductReadRepository => _productReadRepository ?? (_productReadRepository = new ProductReadRepository(_context));
@@ -44,7 +46,7 @@ namespace Infrastructure.Persistance.UnitOfWork
 
         public IShopListReadRepository ShopListReadRepository => _shopListReadRepository ?? (_shopListReadRepository = new ShopListReadRepository(_context, _distributedCache));
 
-        public IShopListWriteRepository ShopListWriteRepository => _shopListWriteRepository ?? (_shopListWriteRepository = new ShopListWriteRepository(_context,_postgreContext));
+        public IShopListWriteRepository ShopListWriteRepository => _shopListWriteRepository ?? (_shopListWriteRepository = new ShopListWriteRepository(_context,_postgreContext,_producer));
 
         public async ValueTask DisposeAsync()
         {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.RabbitMq
 {
-    public class ProducerOperations 
+    public class ProducerOperations :IProducer
     {
 
         private readonly IRabbitMqService _rabbitService;
@@ -28,7 +28,7 @@ namespace Infrastructure.RabbitMq
             using(IModel channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "CompletedList",
-                    durable: true,
+                    durable: false,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null);
