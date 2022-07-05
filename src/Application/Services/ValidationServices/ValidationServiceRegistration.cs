@@ -1,4 +1,5 @@
-﻿using Application.CQS.CategoryR.Commands.AddCategory;
+﻿using Application.Common.Filters;
+using Application.CQS.CategoryR.Commands.AddCategory;
 using Application.CQS.CategoryR.Commands.UpdateCategory;
 using Application.CQS.ProductR.Commands.AddProductToShopList;
 using Application.CQS.ProductR.Commands.BuyAllProducts;
@@ -24,7 +25,9 @@ namespace Application.Services.ValidationServices
     {
         public static void AddValidationServices(this IServiceCollection services)
         {
-            services.AddControllers().AddFluentValidation();
+            services.AddControllers(options => {
+                options.Filters.Add(typeof(GlobalExceptionFilter));
+            }).AddFluentValidation();
             services.AddTransient<IValidator<AddCategoryCommandRequest>, AddCategoryCommandValidator>();
             services.AddTransient<IValidator<UpdateCategoryCommandRequest>, UpdateCategoryCommandValidator>();
             services.AddTransient<IValidator<AddProductToShopListCommandRequest>, AddProductToShopListCommandValidator>();
