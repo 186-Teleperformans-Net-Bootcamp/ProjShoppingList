@@ -20,7 +20,7 @@ namespace Test.Integrations
             var webAppFactory = new WebApplicationFactory<Program>();
             var httpClient = webAppFactory.CreateDefaultClient();
 
-            var response = await httpClient.GetAsync("https://localhost:7004/api/Categories");
+            var response = await httpClient.GetAsync("/api/Categories");
             var stringResult=await response.Content.ReadAsStringAsync();
             var list = System.Text.Json.JsonSerializer.Deserialize<List<GetAllCategoriesQueryResponse>>(stringResult);
 

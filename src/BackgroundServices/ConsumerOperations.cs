@@ -12,7 +12,7 @@ namespace BackgroundServices
 {
     public class ConsumerOperations
     {
-        public async Task Do()
+        public void Consume()
         {
             var factory = new ConnectionFactory() { HostName = "localhost", UserName = "Berengaar", Password = "Berengaar123" };
             using (IConnection connection = factory.CreateConnection())
@@ -21,15 +21,20 @@ namespace BackgroundServices
                 var consumer = new AsyncEventingBasicConsumer(channel);
                 consumer.Received += async (model, ea) =>
                 {
-                    var body = ea.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    var json = System.Text.Json.JsonSerializer.Serialize(body);
-                    var entity = System.Text.Json.JsonSerializer.Deserialize<AddShopListAdminCommandRequest>(json);
+                    try
+                    {
+                        var body = ea.Body.ToArray();
+                        var strEntity = Encoding.UTF8.GetString(body);
+                        var entity = System.Text.Json.JsonSerializer.Deserialize<AddShopListAdminCommandRequest>(strEntity);
+                        HttpClient client = new HttpClient();
 
-                    HttpClient client = new HttpClient();
-
-                    HttpResponseMessage response = await client.PostAsJsonAsync(
-                            "https://localhost:7004/api/shoplists/adding-admin", entity);
+                        HttpResponseMessage response = await client.PostAsJsonAsync(
+                                "https://localhost:7004/api/shoplists/adding-admin", entity);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 };
                 channel.BasicConsume(queue: "CompletedList",
                     autoAck: true, consumer: consumer);
