@@ -33,10 +33,15 @@ namespace Infrastructure.Persistance.Repositories
             return result;
         }
 
-        public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> condition)
+        public async Task<T> GetWhereAsync(Expression<Func<T, bool>> condition)
         {
-            var result = await Table.Where(condition).Where(w => w.IsActive == true).ToListAsync();
+            var result = await Table.Where(condition).Where(w => w.IsActive == true).FirstOrDefaultAsync();
             return result;
+        }
+
+        public Task<List<T>> GetWithCacheAsync(string cacheKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

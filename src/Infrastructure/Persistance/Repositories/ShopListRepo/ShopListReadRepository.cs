@@ -5,11 +5,13 @@ using Application.CQS.ShopListR.Queries.GetAllUserShopListsByCategory;
 using Application.DTOs;
 using Domain.Entities;
 using Infrastructure.Persistance.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,6 +82,23 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
         {
             var result = PaginatedList<ShopList>.ToPagedList(_context.ShopLists.Where(w => w.UserId == userId && w.CategoryId == categoryId), paginatedParameters.PageNumber, paginatedParameters.PageSize);
             return result;
+        }
+
+        public async Task<ShopList> GetAllWithProductsAsync(Expression<Func<ShopList, bool>> predicate = null, params Expression<Func<ShopList, object>>[] includeProperties)
+        {
+            IQueryable<ShopList> query = null;
+            if (predicate != null)
+            {
+                query = _context.ShopLists.Where(predicate);
+            }
+            if (includeProperties.Any())
+            {
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            return await query.SingleOrDefaultAsync();
         }
     }
 }

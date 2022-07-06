@@ -13,7 +13,8 @@ namespace Application.Common.Repositories
     {
         Task<T> GetByIdAsync(string id);
         Task<List<T>> GetAllAsync();
-        Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> condition);
+        Task<T> GetWhereAsync(Expression<Func<T, bool>> condition);
+        Task<List<T>> GetWithCacheAsync(string cacheKey);
 
         //Pagination
     }

@@ -12,6 +12,7 @@ using Domain.Enums;
 using Application.CQS.ProductR.Queries;
 using Application.CQS.ShopListR.Queries.GetAllUserShopListsByCategory;
 using Application.CQS.ShopListR.Commands.AddShopListAdmin;
+using Application.CQS.ShopListR.Queries.GetShopListWithProducts;
 
 namespace UI.Controllers
 {
@@ -35,6 +36,18 @@ namespace UI.Controllers
             }
             var result = await _mediator.Send(request);
             Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
+            return Ok(result);
+        }
+
+        [HttpGet("GetShopListWithProductsAsync_{shopListId}")]
+        public async Task<IActionResult> GetShopListWithProductsAsync(string shopListId, [FromQuery] GetShopListWithProductsQueryRequest request)
+        {
+            if (shopListId != request.ShopListId)
+            {
+                return BadRequest();
+            }
+            var result = await _mediator.Send(request);
+            //Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             return Ok(result);
         }
 

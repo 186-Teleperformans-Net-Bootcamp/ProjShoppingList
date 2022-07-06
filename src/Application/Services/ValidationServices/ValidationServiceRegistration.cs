@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.Services.ValidationServices
@@ -27,7 +28,8 @@ namespace Application.Services.ValidationServices
         {
             services.AddControllers(options => {
                 options.Filters.Add(typeof(GlobalExceptionFilter));
-            }).AddFluentValidation();
+            }).AddFluentValidation().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); 
             services.AddTransient<IValidator<AddCategoryCommandRequest>, AddCategoryCommandValidator>();
             services.AddTransient<IValidator<UpdateCategoryCommandRequest>, UpdateCategoryCommandValidator>();
             services.AddTransient<IValidator<AddProductToShopListCommandRequest>, AddProductToShopListCommandValidator>();

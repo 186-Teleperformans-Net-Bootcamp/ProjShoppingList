@@ -3,6 +3,7 @@ using Application.CQS.ProductR.Commands.AddProductToShopList;
 using Application.CQS.ProductR.Commands.RemoveProduct;
 using Application.CQS.ProductR.Commands.UpdateProduct;
 using Application.CQS.ProductR.Queries;
+using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -24,7 +25,8 @@ namespace Application.Mapping
 
             //Query
             CreateMap<Product,GetAllProductsInShopListQueryResponse>().ReverseMap();
-            
+            CreateMap<Product,ProductDto>().ReverseMap();
+
         }
     }
 }

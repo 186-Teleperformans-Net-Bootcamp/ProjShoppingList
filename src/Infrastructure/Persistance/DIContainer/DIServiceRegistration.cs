@@ -8,6 +8,7 @@ using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
 using Infrastructure.RabbitMq;
+using Infrastructure.RedisCaching;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

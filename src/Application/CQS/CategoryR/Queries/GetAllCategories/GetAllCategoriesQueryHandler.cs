@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace Application.CQS.CategoryR.Queries.GetAllCategories
 
         public async Task<List<GetAllCategoriesQueryResponse>> Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
         {
-            var list = await _unitOfWork.CategoryReadRepository.GetAllAsync();
-            var mappedList = _mapper.Map<List<GetAllCategoriesQueryResponse>>(list);
-            return mappedList;
+            //var list = await _redisCacheService.GetAllCacheAsync("Categories");
+            //var mappedList = _mapper.Map<List<GetAllCategoriesQueryResponse>>(list);
+            return null;
         }
     }
 }
