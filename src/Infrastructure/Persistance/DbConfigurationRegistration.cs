@@ -1,5 +1,7 @@
-﻿using Infrastructure.Identity;
+﻿using Application.Common.Models.MongoDb;
+using Infrastructure.Identity;
 using Infrastructure.Persistance.Contexts;
+using Infrastructure.Persistance.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,8 @@ namespace Infrastructure.Persistance
             services.AddDbContext<ProjShoppingListMsDbContext>(options => options.UseSqlServer(configuration["SQLSERVER:ConnectionStrings"]));
             services.AddDbContext<ProjShoppingListPostgreSqlDbContext>(options => options.UseNpgsql(configuration["POSTGRESQL:ConnectionStrings"]));
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ProjShoppingListMsDbContext>().AddDefaultTokenProviders();
+            services.Configure<MongoDbSettings>(configuration.GetSection("MongoDb"));
+            services.AddSingleton<MongoDbService>();
 
             //Authentication
 

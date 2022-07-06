@@ -18,26 +18,28 @@ namespace BackgroundServices
             using (IConnection connection = factory.CreateConnection())
             using (IModel channel = connection.CreateModel())
             {
-                var consumer = new AsyncEventingBasicConsumer(channel);
-                consumer.Received += async (model, ea) =>
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
                 {
                     try
                     {
                         var body = ea.Body.ToArray();
                         var strEntity = Encoding.UTF8.GetString(body);
-                        var entity = System.Text.Json.JsonSerializer.Deserialize<AddShopListAdminCommandRequest>(strEntity);
-                        HttpClient client = new HttpClient();
+                        //var entity = System.Text.Json.JsonSerializer.Deserialize<AddShopListAdminCommandRequest>(strEntity);
+                        //HttpClient client = new HttpClient();
 
-                        HttpResponseMessage response = await client.PostAsJsonAsync(
-                                "https://localhost:7004/api/shoplists/adding-admin", entity);
+                        //HttpResponseMessage response = await client.PostAsJsonAsync(
+                        //        "https://localhost:7004/api/shoplists/adding-admin", entity);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
                 };
-                channel.BasicConsume(queue: "CompletedList",
+                    channel.BasicConsume(queue: "CompletedList",
                     autoAck: true, consumer: consumer);
+               
+                
             }
         }
     }

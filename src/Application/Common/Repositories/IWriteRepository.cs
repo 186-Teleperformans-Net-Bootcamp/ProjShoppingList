@@ -20,5 +20,6 @@ namespace Application.Common.Repositories
         bool Remove(T model);
         bool RemoveRange(List<T> models);
         Task<int> SaveAsync();
+        Task Logger(T entity,string operation);
     }
 }

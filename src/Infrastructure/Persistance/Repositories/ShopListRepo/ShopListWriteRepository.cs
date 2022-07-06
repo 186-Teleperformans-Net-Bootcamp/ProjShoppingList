@@ -16,9 +16,10 @@ namespace Infrastructure.Persistance.Repositories.ShopListRepo
     {
         private readonly ProjShoppingListMsDbContext _context;
         private readonly ProjShoppingListPostgreSqlDbContext _postgreContext;
+        private readonly MongoDbService _mongoDbService;
         private readonly IProducer _producer;
-        public ShopListWriteRepository(ProjShoppingListMsDbContext context, ProjShoppingListPostgreSqlDbContext postgreContext, IProducer producer) : base(context) =>
-            (_context, _postgreContext,_producer) = (context, postgreContext,producer);
+        public ShopListWriteRepository(ProjShoppingListMsDbContext context, ProjShoppingListPostgreSqlDbContext postgreContext, IProducer producer, MongoDbService mongoDbService) : base(context,mongoDbService) =>
+            (_context, _postgreContext, _producer) = (context, postgreContext, producer);
 
         public async Task<bool> AddShopListAdminAsync(CompletedList completedShopList)
         {

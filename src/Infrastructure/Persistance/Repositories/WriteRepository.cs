@@ -1,5 +1,8 @@
-﻿using Application.Common.Repositories;
+﻿using Application.Common.Interfaces;
+using Application.Common.Repositories;
 using Domain.Common;
+using Domain.Entities;
+using Domain.Entities.MongoDbEntities;
 using Infrastructure.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -14,8 +17,9 @@ namespace Infrastructure.Persistance.Repositories
     public class WriteRepository<T> : IWriteRepository<T> where T : BaseEditableEntity
     {
         private readonly ProjShoppingListMsDbContext _context;
+        private readonly IMongoDbService _mongoDbService;
 
-        public WriteRepository(ProjShoppingListMsDbContext context) => _context = context;
+        public WriteRepository(ProjShoppingListMsDbContext context, IMongoDbService mongoDbService) => (_context,_mongoDbService)=(context,mongoDbService);
 
 
         public DbSet<T> Table => _context.Set<T>();
@@ -24,6 +28,7 @@ namespace Infrastructure.Persistance.Repositories
         {
             await _context.AddAsync(entity);
             _context.SaveChanges();
+            await Logger(entity, "update");
             return true;
         }
 
@@ -32,11 +37,6 @@ namespace Infrastructure.Persistance.Repositories
             await _context.AddRangeAsync(models);
             _context.SaveChanges();
             return true;
-        }
-
-        public Task<bool> Any()
-        {
-            throw new NotImplementedException();
         }
 
         public bool Remove(T model)
@@ -73,6 +73,7 @@ namespace Infrastructure.Persistance.Repositories
             {
                 entity.IsActive = false;
                 await SaveAsync();
+                await Logger(entity, "update");
                 return true;
             }
             else return false;
@@ -85,6 +86,7 @@ namespace Infrastructure.Persistance.Repositories
             {
                 entity.IsActive = false;
                 _context.SaveChanges();
+                await Logger(entity, "update");
                 return true;
             }
             else return false;
@@ -108,9 +110,25 @@ namespace Infrastructure.Persistance.Repositories
             await _context.SaveChangesAsync();
             if (entityEntry.Entity != null)
             {
+                await Logger(entity, "update");
                 return true;
             }
             return false;
+        }
+
+        public async Task Logger(T entity, string operation)
+        {
+            Log log = new Log
+            {
+                Operation = operation,
+                OperationDate = DateTime.Now,
+                Type = entity.GetType().ToString(),
+            };
+            if (entity is ShopList)
+            {
+                log.UserId = ((ShopList)(object)entity).UserId;
+            }
+            await _mongoDbService.CreateAsync(log);
         }
     }
 }

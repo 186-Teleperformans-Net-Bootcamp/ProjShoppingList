@@ -11,8 +11,10 @@ namespace Infrastructure.Persistance.Repositories.CategoryRepo
 {
     public class CategoryWriteRepository : WriteRepository<Category>, ICategoryWriteRepository
     {
-        public CategoryWriteRepository(ProjShoppingListMsDbContext context) : base(context)
+        private readonly MongoDbService _mongoDbService;
+        public CategoryWriteRepository(ProjShoppingListMsDbContext context, MongoDbService mongoDbService) : base(context,mongoDbService)
         {
+            _mongoDbService = mongoDbService;
         }
     }
 }

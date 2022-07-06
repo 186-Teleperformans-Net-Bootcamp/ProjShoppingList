@@ -13,9 +13,11 @@ namespace Infrastructure.Persistance.Repositories.ProductRepo
     public class ProductWriteRepository : WriteRepository<Product>, IProductWriteRepository
     {
         private readonly ProjShoppingListMsDbContext _context;
-        public ProductWriteRepository(ProjShoppingListMsDbContext context) : base(context)
+        private readonly MongoDbService _mongoDbService;
+        public ProductWriteRepository(ProjShoppingListMsDbContext context, MongoDbService mongoDbService) : base(context, mongoDbService)
         {
             _context = context;
+            _mongoDbService = mongoDbService;
         }
 
         public async Task<bool> BuyAllProductsByShopListIdAsync(string shopListId)

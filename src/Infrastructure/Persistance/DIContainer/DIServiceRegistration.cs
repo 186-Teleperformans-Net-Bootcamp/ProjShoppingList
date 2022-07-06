@@ -3,6 +3,7 @@ using Application.Common.Repositories.CategoryRepo;
 using Application.Common.Repositories.ProductRepo;
 using Application.Common.Repositories.ShopListRepo;
 using Infrastructure.Identity;
+using Infrastructure.Persistance.Repositories;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
@@ -31,6 +32,7 @@ namespace Infrastructure.Persistance.DIContainer
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IProducer, ProducerOperations>();
             services.AddScoped<IRabbitMqService, RabbitMqService>();
+            services.AddScoped<IMongoDbService, MongoDbService>();
         }
     }
 }
