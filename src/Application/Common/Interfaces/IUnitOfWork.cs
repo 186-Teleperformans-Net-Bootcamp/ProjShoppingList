@@ -17,6 +17,7 @@ namespace Application.Common.Interfaces
         ICategoryWriteRepository CategoryWriteRepository { get; }
         IShopListReadRepository ShopListReadRepository { get; }
         IShopListWriteRepository ShopListWriteRepository { get; }
+        ICategoryCacheRepository CategoryCacheRepository { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

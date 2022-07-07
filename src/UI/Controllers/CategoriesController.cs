@@ -22,7 +22,7 @@ namespace UI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> GetAllCategoriesAsync([FromQuery] GetAllCategoriesQueryRequest request)
         {
             var result = await _mediator.Send(request);
@@ -35,7 +35,7 @@ namespace UI.Controllers
 
 
         [HttpPost]
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> AddAsync(AddCategoryCommandRequest request)
         {
             var result = await _mediator.Send(request);
@@ -46,7 +46,7 @@ namespace UI.Controllers
             return BadRequest(result.Error);
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> UpdateAsync(string id, UpdateCategoryCommandRequest request)
         {
             if (id != request.Id)

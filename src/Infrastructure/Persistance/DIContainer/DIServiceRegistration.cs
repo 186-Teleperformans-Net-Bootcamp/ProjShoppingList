@@ -34,6 +34,7 @@ namespace Infrastructure.Persistance.DIContainer
             services.AddScoped<IProducer, ProducerOperations>();
             services.AddScoped<IRabbitMqService, RabbitMqService>();
             services.AddScoped<IMongoDbService, MongoDbService>();
+            services.AddScoped<ICategoryCacheRepository, CategoryCacheRepository>();
         }
     }
 }

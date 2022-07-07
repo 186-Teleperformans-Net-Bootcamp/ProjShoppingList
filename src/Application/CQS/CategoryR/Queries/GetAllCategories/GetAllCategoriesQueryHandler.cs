@@ -23,8 +23,12 @@ namespace Application.CQS.CategoryR.Queries.GetAllCategories
 
         public async Task<List<GetAllCategoriesQueryResponse>> Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
         {
-            //var list = await _redisCacheService.GetAllCacheAsync("Categories");
-            //var mappedList = _mapper.Map<List<GetAllCategoriesQueryResponse>>(list);
+            var list = await _unitOfWork.CategoryCacheRepository.GetAllCacheAsync("Category");
+            var mappedList = _mapper.Map<List<GetAllCategoriesQueryResponse>>(list);
+            if (mappedList.Count>-1)
+            {
+                return mappedList;
+            }
             return null;
         }
     }

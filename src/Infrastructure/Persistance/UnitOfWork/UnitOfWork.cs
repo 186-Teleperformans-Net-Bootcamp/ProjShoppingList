@@ -7,6 +7,7 @@ using Infrastructure.Persistance.Repositories;
 using Infrastructure.Persistance.Repositories.CategoryRepo;
 using Infrastructure.Persistance.Repositories.ProductRepo;
 using Infrastructure.Persistance.Repositories.ShopListRepo;
+using Infrastructure.RedisCaching;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace Infrastructure.Persistance.UnitOfWork
         private CategoryWriteRepository _categoryWriteRepository;
         private ShopListReadRepository _shopListReadRepository;
         private ShopListWriteRepository _shopListWriteRepository;
+        private CategoryCacheRepository _categoryCacheRepository;
 
         public UnitOfWork(ProjShoppingListMsDbContext context, IDistributedCache distributedCache, IProducer producer, ProjShoppingListPostgreSqlDbContext postgreContext, MongoDbService mongoDbService)
         {
@@ -51,6 +53,8 @@ namespace Infrastructure.Persistance.UnitOfWork
         public IShopListReadRepository ShopListReadRepository => _shopListReadRepository ?? (_shopListReadRepository = new ShopListReadRepository(_context, _distributedCache));
 
         public IShopListWriteRepository ShopListWriteRepository => _shopListWriteRepository ?? (_shopListWriteRepository = new ShopListWriteRepository(_context,_postgreContext,_producer, _mongoDbService));
+
+        public ICategoryCacheRepository CategoryCacheRepository => _categoryCacheRepository ?? (_categoryCacheRepository = new RedisCaching.CategoryCacheRepository(_context, _distributedCache));
 
         public async ValueTask DisposeAsync()
         {

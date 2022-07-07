@@ -7,7 +7,9 @@ using Application.CQS.ProductR.Commands.RemoveProduct;
 using Application.CQS.ProductR.Commands.UpdateProduct;
 using Application.CQS.ProductR.Queries;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +27,7 @@ namespace UI.Controllers
         }
         //Queries
         //<ActionResult<PaginatedList<GetAllProductsInShopListQueryResponse>>>
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet("{shopListId}")]
         public async Task<IActionResult> GetAllProductsInShopListAsync(string shopListId, [FromQuery]GetAllProductsInShopListQueryRequest request)
         {
@@ -33,7 +36,7 @@ namespace UI.Controllers
                 return BadRequest();
             }
             var result=await _mediator.Send(request);
-            //Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
+            Response.Headers.Add("X-Pagination", System.Text.Json.JsonSerializer.Serialize(request));
             if (result.Count > -1)
             {
                 return Ok(result);
@@ -41,6 +44,7 @@ namespace UI.Controllers
             return BadRequest();
         }
         //Commands
+        [Authorize(Roles = UserRoles.User)]
         [HttpPost("{shopListId}")]
         public async Task<IActionResult> AddAsync(string shopListId,AddProductToShopListCommandRequest request)
         {
@@ -56,6 +60,7 @@ namespace UI.Controllers
             return BadRequest(result.Error);                
         }
 
+        [Authorize(Roles = UserRoles.User)]
         [HttpPut("updating_{id}")]
         public async Task<IActionResult> UpdateAsync(string id,UpdateProductCommandRequest request)
         {
@@ -70,7 +75,7 @@ namespace UI.Controllers
             }
             else return BadRequest(result.Error);
         }
-
+        [Authorize(Roles = UserRoles.User)]
         [HttpPatch("removing_{id}")]
         public async Task<IActionResult> SoftRemoveAsync(string id,SoftRemoveProductCommandRequest request)
         {
@@ -85,6 +90,7 @@ namespace UI.Controllers
             }
             return BadRequest(result.Error);
         }
+        [Authorize(Roles = UserRoles.User)]
         [HttpPatch("buying_{id}")]
         public async Task<IActionResult> BuyProductAsync(string id, BuyProductCommandRequest request)
         {
@@ -99,7 +105,7 @@ namespace UI.Controllers
             }
             return BadRequest();
         }
-
+        [Authorize(Roles = UserRoles.User)]
         [HttpPut("allBuying_{shopListId}")]
         public async Task<IActionResult> BuyAllProductsAsync(string shopListId, BuyAllProductsCommandRequest request)
         {

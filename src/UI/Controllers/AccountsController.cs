@@ -1,10 +1,12 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -15,6 +17,7 @@ namespace UI.Controllers
         {
             _identityService = identityService;
         }
+        
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterModel user)
         {

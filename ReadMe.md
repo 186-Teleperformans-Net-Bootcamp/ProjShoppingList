@@ -14,7 +14,7 @@
 * [Redis](https://redis.io/)
 * [Microsoft identity](https://docs.microsoft.com/tr-tr/aspnet/core/security/authentication/identity?view=aspnetcore-6.0&tabs=visual-studio)
 
-## Databases
+## Using Databases
 * [MSSQL](https://www.microsoft.com/tr-tr/sql-server/sql-server-2019)
 * [PostgreSql](https://www.postgresql.org/)
 * [MongoDb](https://www.mongodb.com/)
@@ -121,7 +121,7 @@ are in this layer. And this layer contains context objects.**
 
 # Tests
 
-## Unit Test
+## UnitTest
 => **Unit Testing is a way to test a unit, the smallest piece of code that can be logically isolated in a system.**
 
 <br>
@@ -129,7 +129,7 @@ are in this layer. And this layer contains context objects.**
 ![TestUI](https://user-images.githubusercontent.com/77523736/177666823-a73d71c8-aef6-4565-b6fc-7bc9fb276fda.png)
 
 
-## Integration Test
+## IntegrationTest
 => **Integration testing aims to test whether different components (units) of the system work together correctly.**
 
 <br>
@@ -151,6 +151,11 @@ Package Manager Console
 
  : We have to assign context name
 ```
+### Dbeaver
+<hr>
+
+![Dbeaver](https://user-images.githubusercontent.com/77523736/177670366-044cd4b3-749f-4457-9e20-5748991d4188.png)
+
 
 ### MongoDb
 => For custom log on docker.
